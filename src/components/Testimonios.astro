@@ -1,0 +1,31 @@
+---
+const testimonios = [
+  { texto: "La mejor pasta carbonara que he probado fuera de Italia. El servicio es excepcional y el ambiente, perfecto para una cena especial.", nombre: "María González", rol: "Cliente frecuente", avatar: "https://i.pravatar.cc/100?img=1" },
+  { texto: "Lugar acogedor, comida deliciosa y precios justos. Mi familia y yo venimos cada fin de semana. Los recomiendo 100%.", nombre: "Carlos Ramírez", rol: "Padre de familia", avatar: "https://i.pravatar.cc/100?img=12" },
+  { texto: "Celebré mi cumpleaños aquí y fue una experiencia inolvidable. Atención personalizada, postres increíbles y un detalle especial de la casa.", nombre: "Laura Sánchez", rol: "Cumpleañera feliz", avatar: "https://i.pravatar.cc/100?img=5" },
+];
+---
+
+<section id="testimonios" class="py-20 px-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-12">
+      <span class="text-amber-700 font-semibold uppercase tracking-wider">Opiniones</span>
+      <h2 class="text-4xl md:text-5xl font-bold mt-2">Lo que dicen nuestros clientes</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {testimonios.map((t) => (
+        <div class="bg-white p-8 rounded-2xl shadow-lg">
+          <div class="text-amber-500 text-2xl mb-4">★★★★★</div>
+          <p class="text-stone-700 italic mb-6">"{t.texto}"</p>
+          <div class="flex items-center gap-4">
+            <img src={t.avatar} alt={t.nombre} class="w-12 h-12 rounded-full" />
+            <div>
+              <div class="font-bold">{t.nombre}</div>
+              <div class="text-stone-500 text-sm">{t.rol}</div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
