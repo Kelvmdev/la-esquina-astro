@@ -1,0 +1,14 @@
+---
+const { nombre, precio, descripcion, imagen } = Astro.props;
+---
+
+<div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition">
+  <img src={imagen} alt={nombre} class="w-full h-56 object-cover" />
+  <div class="p-6">
+    <div class="flex justify-between items-start mb-2">
+      <h3 class="text-xl font-bold">{nombre}</h3>
+      <span class="text-amber-700 font-bold text-xl">{precio}</span>
+    </div>
+    <p class="text-stone-600 text-sm">{descripcion}</p>
+  </div>
+</div>

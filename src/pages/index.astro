@@ -1,0 +1,18 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Boton from "../components/Boton.astro";
+---
+
+<Layout
+  titulo="La Esquina | Restaurante"
+  descripcion="Restaurante de cocina tradicional con ingredientes locales y un toque moderno. Reserva tu mesa hoy en Medellín."
+>
+  <h1 class="text-4xl font-bold text-amber-700 p-8">Bienvenido a La Esquina</h1>
+  <p class="px-8 text-lg text-gray-600">Haz tu reserva ahora:</p>
+
+  <div class="flex gap-4 p-8">
+    <Boton texto="Reservar Mesa" />
+    <Boton texto="Ver Menú" />
+    <Boton texto="Contáctanos" />
+  </div>
+</Layout>
