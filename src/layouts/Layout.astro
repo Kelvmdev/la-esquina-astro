@@ -3,7 +3,7 @@ import '../styles/global.css';
 const { titulo, descripcion } = Astro.props;
 ---
 
-<html lang="es">
+<html lang="es" class="scroll-smooth">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,6 +14,13 @@ const { titulo, descripcion } = Astro.props;
     <meta property="og:title" content={titulo} />
     <meta property="og:description" content={descripcion} />
     <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://images.pexels.com/photos/34442359/pexels-photo-34442359.jpeg?w=1200" />
+    <meta property="og:url" content="https://la-esquina-astro.vercel.app/" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={titulo} />
+    <meta name="twitter:description" content={descripcion} />
+    <meta name="twitter:image" content="https://images.pexels.com/photos/34442359/pexels-photo-34442359.jpeg?w=1200" />
   </head>
   <body>
     <slot />
