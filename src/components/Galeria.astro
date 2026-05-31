@@ -1,0 +1,80 @@
+---
+const fotos = [
+  "https://images.pexels.com/photos/35437142/pexels-photo-35437142.png?auto=compress&cs=tinysrgb&w=1200",
+  "https://images.pexels.com/photos/36604677/pexels-photo-36604677.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  "https://images.pexels.com/photos/35283768/pexels-photo-35283768.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  "https://images.pexels.com/photos/20614080/pexels-photo-20614080.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  "https://images.pexels.com/photos/37025259/pexels-photo-37025259.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  "https://images.pexels.com/photos/37025260/pexels-photo-37025260.jpeg?auto=compress&cs=tinysrgb&w=1200",
+];
+---
+
+<section id="galeria" class="py-20 px-6 bg-white">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-12">
+      <span class="text-amber-700 font-semibold uppercase tracking-wider">Galería</span>
+      <h2 class="text-4xl md:text-5xl font-bold mt-2">Un vistazo a La Esquina</h2>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+      {fotos.map((foto, i) => (
+        <button data-foto={i} class="group overflow-hidden rounded-xl aspect-[4/3] cursor-pointer">
+          <img src={foto} alt={`Foto ${i + 1} de La Esquina`} loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <!-- Lightbox (visor) -->
+  <div data-lightbox class="hidden fixed inset-0 z-[60] bg-black/90 items-center justify-center p-4">
+    <button data-lb-close aria-label="Cerrar" class="absolute top-4 right-6 text-white text-4xl leading-none cursor-pointer">✕</button>
+    <button data-lb-prev aria-label="Anterior" class="absolute left-4 text-white text-5xl leading-none px-2 cursor-pointer">‹</button>
+    <img data-lb-img src="" alt="Foto ampliada" class="max-h-[85vh] max-w-[90vw] object-contain rounded-lg" />
+    <button data-lb-next aria-label="Siguiente" class="absolute right-4 text-white text-5xl leading-none px-2 cursor-pointer">›</button>
+    <span data-lb-counter class="absolute bottom-6 text-white text-sm"></span>
+  </div>
+</section>
+
+<script>
+  const lightbox = document.querySelector<HTMLElement>("[data-lightbox]");
+  const lbImg = lightbox?.querySelector<HTMLImageElement>("[data-lb-img]");
+  const lbCounter = lightbox?.querySelector<HTMLElement>("[data-lb-counter]");
+  const triggers = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-foto]"));
+  const srcs = triggers.map((t) => t.querySelector<HTMLImageElement>("img")?.src ?? "");
+
+  let current = 0;
+
+  const render = (i: number) => {
+    current = (i + srcs.length) % srcs.length;
+    if (lbImg) lbImg.src = srcs[current];
+    if (lbCounter) lbCounter.textContent = `${current + 1} / ${srcs.length}`;
+  };
+
+  const open = (i: number) => {
+    if (!lightbox) return;
+    render(i);
+    lightbox.classList.remove("hidden");
+    lightbox.classList.add("flex");
+    document.body.style.overflow = "hidden";
+  };
+
+  const close = () => {
+    if (!lightbox) return;
+    lightbox.classList.add("hidden");
+    lightbox.classList.remove("flex");
+    document.body.style.overflow = "";
+  };
+
+  triggers.forEach((t, i) => t.addEventListener("click", () => open(i)));
+  lightbox?.querySelector("[data-lb-close]")?.addEventListener("click", close);
+  lightbox?.querySelector("[data-lb-prev]")?.addEventListener("click", () => render(current - 1));
+  lightbox?.querySelector("[data-lb-next]")?.addEventListener("click", () => render(current + 1));
+  lightbox?.addEventListener("click", (e) => { if (e.target === lightbox) close(); });
+
+  document.addEventListener("keydown", (e) => {
+    if (!lightbox || lightbox.classList.contains("hidden")) return;
+    if (e.key === "Escape") close();
+    if (e.key === "ArrowLeft") render(current - 1);
+    if (e.key === "ArrowRight") render(current + 1);
+  });
+</script>

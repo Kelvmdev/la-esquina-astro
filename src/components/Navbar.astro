@@ -8,16 +8,59 @@
       🍴 La Esquina
     </a>
 
+    <!-- Enlaces (solo desktop) -->
     <div class="hidden md:flex gap-8 text-stone-700">
       <a href="#sobre" class="hover:text-amber-700 transition">Sobre nosotros</a>
       <a href="#menu" class="hover:text-amber-700 transition">Menú</a>
+      <a href="#galeria" class="hover:text-amber-700 transition">Galería</a>
       <a href="#testimonios" class="hover:text-amber-700 transition">Opiniones</a>
       <a href="#contacto" class="hover:text-amber-700 transition">Contacto</a>
     </div>
 
-    <a href="#contacto" class="bg-amber-700 hover:bg-amber-800 text-white px-5 py-2 rounded-lg font-medium transition">
+    <!-- Botón Reservar (solo desktop) -->
+    <a href="#contacto" class="hidden md:inline-block bg-amber-700 hover:bg-amber-800 text-white px-5 py-2 rounded-lg font-medium transition">
       Reservar
     </a>
 
+    <!-- Botón hamburguesa (solo móvil) -->
+    <button
+      data-menu-btn
+      aria-label="Abrir menú"
+      aria-expanded="false"
+      class="md:hidden text-3xl text-stone-700 leading-none"
+    >
+      ☰
+    </button>
+
+  </div>
+
+  <!-- Menú móvil (oculto por defecto) -->
+  <div data-menu-mobile class="hidden md:hidden bg-white border-t border-stone-200 px-6 py-4 text-stone-700">
+    <a href="#sobre" class="block py-2 hover:text-amber-700 transition">Sobre nosotros</a>
+    <a href="#menu" class="block py-2 hover:text-amber-700 transition">Menú</a>
+    <a href="#galeria" class="block py-2 hover:text-amber-700 transition">Galería</a>
+    <a href="#testimonios" class="block py-2 hover:text-amber-700 transition">Opiniones</a>
+    <a href="#contacto" class="block py-2 hover:text-amber-700 transition">Contacto</a>
+    <a href="#contacto" class="block mt-3 bg-amber-700 hover:bg-amber-800 text-white px-5 py-2 rounded-lg font-medium transition text-center">Reservar</a>
   </div>
 </nav>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>("[data-menu-btn]");
+  const menu = document.querySelector<HTMLElement>("[data-menu-mobile]");
+
+  btn?.addEventListener("click", () => {
+    if (!menu) return;
+    const isHidden = menu.classList.toggle("hidden");
+    btn.setAttribute("aria-expanded", String(!isHidden));
+    btn.textContent = isHidden ? "☰" : "✕";
+  });
+
+  menu?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      menu.classList.add("hidden");
+      btn?.setAttribute("aria-expanded", "false");
+      if (btn) btn.textContent = "☰";
+    });
+  });
+</script>
