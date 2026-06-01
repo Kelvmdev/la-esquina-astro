@@ -17,7 +17,10 @@ const error = Astro.url.searchParams.get("error");
   <body class="min-h-screen bg-stone-100 p-6">
     {logueado ? (
       <div class="max-w-2xl mx-auto space-y-6">
-  <h1 class="text-2xl font-bold">Panel La Esquina 🍴</h1>
+  <div class="flex items-center justify-between">
+          <h1 class="text-2xl font-bold">Panel La Esquina 🍴</h1>
+          <a href="/api/logout" class="text-sm text-stone-500 hover:text-stone-700 underline">Cerrar sesión</a>
+        </div>
 
   <!-- Card: info del sitio -->
   <div data-sitio class="bg-white rounded-2xl shadow-lg p-6 md:p-8 space-y-4">
