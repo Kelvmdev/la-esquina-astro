@@ -1,5 +1,6 @@
 ---
 import Mapa from "./Mapa.astro";
+import { sitio } from "../config";
 ---
 
 <section id="contacto" class="py-20 px-6 bg-stone-100">
@@ -16,7 +17,7 @@ import Mapa from "./Mapa.astro";
             <div class="text-3xl">📍</div>
             <div>
               <div class="font-bold">Dirección</div>
-              <p class="text-stone-600">Calle 70 #45-12, El Poblado, Medellín</p>
+              <p class="text-stone-600">import { sitio } from "../config";</p>
             </div>
           </div>
 
@@ -26,21 +27,21 @@ import Mapa from "./Mapa.astro";
             <div class="text-3xl">📞</div>
             <div>
               <div class="font-bold">Teléfono</div>
-              <p class="text-stone-600">+57 300 123 4567</p>
+              <p class="text-stone-600">{sitio.telefono}</p>
             </div>
           </div>
           <div class="flex items-start gap-4">
             <div class="text-3xl">✉️</div>
             <div>
               <div class="font-bold">Email</div>
-              <p class="text-stone-600">hola@laesquina.com</p>
+              <p class="text-stone-600">{sitio.email}</p>
             </div>
           </div>
           <div class="flex items-start gap-4">
             <div class="text-3xl">🕐</div>
             <div>
               <div class="font-bold">Horario</div>
-              <p class="text-stone-600">Lunes a Domingo: 12:00 PM - 11:00 PM</p>
+              <p class="text-stone-600">{sitio.horario}</p>
             </div>
           </div>
          

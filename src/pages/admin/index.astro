@@ -1,0 +1,116 @@
+---
+export const prerender = false;
+
+import { sitio, menu, testimonios } from "../../config";
+
+const logueado = Astro.cookies.get("sesion")?.value === "ok";
+const error = Astro.url.searchParams.get("error");
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Panel — La Esquina</title>
+  </head>
+  <body class="min-h-screen bg-stone-100 p-6">
+    {logueado ? (
+      <div class="max-w-2xl mx-auto">
+        <h1 class="text-2xl font-bold mb-6">Panel La Esquina 🍴</h1>
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 space-y-4">
+          <h2 class="text-lg font-bold">Información del sitio</h2>
+
+          <label class="block">
+            <span class="block text-sm font-medium mb-1">Nombre del restaurante</span>
+            <input data-campo="nombre" value={sitio.nombre} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+          </label>
+
+          <label class="block">
+            <span class="block text-sm font-medium mb-1">Título principal (hero)</span>
+            <input data-campo="titulo" value={sitio.titulo} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+          </label>
+
+          <label class="block">
+            <span class="block text-sm font-medium mb-1">Subtítulo (hero)</span>
+            <input data-campo="subtitulo" value={sitio.subtitulo} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+          </label>
+
+          <label class="block">
+            <span class="block text-sm font-medium mb-1">Dirección</span>
+            <input data-campo="direccion" value={sitio.direccion} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+          </label>
+
+          <label class="block">
+            <span class="block text-sm font-medium mb-1">Teléfono</span>
+            <input data-campo="telefono" value={sitio.telefono} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+          </label>
+
+          <label class="block">
+            <span class="block text-sm font-medium mb-1">Email</span>
+            <input data-campo="email" value={sitio.email} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+          </label>
+
+          <label class="block">
+            <span class="block text-sm font-medium mb-1">Horario</span>
+            <input data-campo="horario" value={sitio.horario} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+          </label>
+
+          <button data-guardar class="w-full bg-amber-700 hover:bg-amber-800 text-white font-semibold py-3 rounded-lg transition mt-2 disabled:opacity-60">
+            Guardar cambios
+          </button>
+          <p data-estado hidden class="text-sm text-center"></p>
+        </div>
+      </div>
+    ) : (
+      <div class="min-h-screen flex items-center justify-center">
+        <form method="POST" action="/api/login" class="bg-white rounded-2xl shadow-lg p-8 max-w-md w-full">
+          <h1 class="text-2xl font-bold mb-6 text-center">Panel La Esquina 🍴</h1>
+          <label class="block text-sm font-medium mb-2">Clave</label>
+          <input type="password" name="clave" required class="w-full px-4 py-3 border border-stone-300 rounded-lg mb-4 focus:outline-none focus:border-amber-700" placeholder="••••••••" />
+          <button type="submit" class="w-full bg-amber-700 hover:bg-amber-800 text-white font-semibold py-3 rounded-lg transition">Entrar</button>
+          {error && <p class="text-red-600 text-sm text-center mt-4">Clave incorrecta, intenta de nuevo.</p>}
+        </form>
+      </div>
+    )}
+
+    <script define:vars={{ sitioActual: sitio, menuActual: menu, testimoniosActual: testimonios }}>
+      const btn = document.querySelector("[data-guardar]");
+      const estado = document.querySelector("[data-estado]");
+
+      btn?.addEventListener("click", async () => {
+        const sitio = { ...sitioActual };
+        document.querySelectorAll("[data-campo]").forEach((el) => {
+          sitio[el.dataset.campo] = el.value;
+        });
+
+        const nuevaData = { sitio, menu: menuActual, testimonios: testimoniosActual };
+
+        estado.hidden = false;
+        estado.textContent = "Guardando…";
+        estado.className = "text-sm text-center text-stone-600";
+        btn.disabled = true;
+
+        try {
+          const res = await fetch("/api/guardar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(nuevaData),
+          });
+          if (res.ok) {
+            estado.textContent = "¡Guardado! La web se actualizará en ~1 min. 🎉";
+            estado.className = "text-sm text-center text-green-700";
+          } else {
+            estado.textContent = "Algo falló al guardar. Intenta de nuevo.";
+            estado.className = "text-sm text-center text-red-700";
+          }
+        } catch {
+          estado.textContent = "No pudimos conectar. Revisa tu red.";
+          estado.className = "text-sm text-center text-red-700";
+        } finally {
+          btn.disabled = false;
+        }
+      });
+    </script>
+  </body>
+</html>
