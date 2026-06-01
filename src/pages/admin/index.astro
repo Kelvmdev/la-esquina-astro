@@ -94,30 +94,40 @@ const error = Astro.url.searchParams.get("error");
       + Agregar plato
     </button>
   </div>
-  <!-- Card: testimonios -->
+ <!-- Card: testimonios -->
   <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 space-y-4">
     <h2 class="text-lg font-bold">Testimonios 💬</h2>
-    {testimonios.map((t, i) => (
-      <div class="border border-stone-200 rounded-xl p-4 space-y-3">
-        <p class="text-sm font-semibold text-amber-700">Testimonio {i + 1}</p>
-        <label class="block">
-          <span class="block text-sm font-medium mb-1">Texto</span>
-          <textarea data-testi={i} data-campo="texto" rows="3" class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700">{t.texto}</textarea>
-        </label>
-        <label class="block">
-          <span class="block text-sm font-medium mb-1">Nombre</span>
-          <input data-testi={i} data-campo="nombre" value={t.nombre} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
-        </label>
-        <label class="block">
-          <span class="block text-sm font-medium mb-1">Rol</span>
-          <input data-testi={i} data-campo="rol" value={t.rol} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
-        </label>
-        <label class="block">
-          <span class="block text-sm font-medium mb-1">Avatar (URL)</span>
-          <input data-testi={i} data-campo="avatar" value={t.avatar} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
-        </label>
-      </div>
-    ))}
+
+    <div data-testi-lista class="space-y-4">
+      {testimonios.map((t, i) => (
+        <div data-testi class="border border-stone-200 rounded-xl p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <p data-testi-num class="text-sm font-semibold text-amber-700">Testimonio {i + 1}</p>
+            <button type="button" data-borrar-testi class="text-sm text-red-600 hover:text-red-700 font-medium">Borrar</button>
+          </div>
+          <label class="block">
+            <span class="block text-sm font-medium mb-1">Texto</span>
+            <textarea data-campo="texto" rows="3" class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700">{t.texto}</textarea>
+          </label>
+          <label class="block">
+            <span class="block text-sm font-medium mb-1">Nombre</span>
+            <input data-campo="nombre" value={t.nombre} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+          </label>
+          <label class="block">
+            <span class="block text-sm font-medium mb-1">Rol</span>
+            <input data-campo="rol" value={t.rol} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+          </label>
+          <label class="block">
+            <span class="block text-sm font-medium mb-1">Avatar (URL)</span>
+            <input data-campo="avatar" value={t.avatar} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+          </label>
+        </div>
+      ))}
+    </div>
+
+    <button type="button" data-agregar-testi class="w-full border-2 border-dashed border-amber-700 text-amber-700 font-semibold py-2 rounded-lg hover:bg-amber-50 transition">
+      + Agregar testimonio
+    </button>
   </div>
 
   <!-- Guardar (uno solo, para todo) -->
@@ -144,6 +154,7 @@ const error = Astro.url.searchParams.get("error");
   const btn = document.querySelector("[data-guardar]");
   const estado = document.querySelector("[data-estado]");
   const menuContainer = document.querySelector("[data-menu-lista]");
+  const testiContainer = document.querySelector("[data-testi-lista]");
 
   // --- Cloudinary ---
   const CLOUD_NAME = "dw26ujhoo";
@@ -159,25 +170,29 @@ const error = Astro.url.searchParams.get("error");
     return data.secure_url;
   }
 
-  // --- Renumerar los "Plato N" tras agregar/borrar ---
+  // --- Renumerar ---
   function renumerarPlatos() {
     menuContainer.querySelectorAll("[data-plato]").forEach((card, i) => {
       const num = card.querySelector("[data-plato-num]");
       if (num) num.textContent = `Plato ${i + 1}`;
     });
   }
+  function renumerarTestimonios() {
+    testiContainer.querySelectorAll("[data-testi]").forEach((card, i) => {
+      const num = card.querySelector("[data-testi-num]");
+      if (num) num.textContent = `Testimonio ${i + 1}`;
+    });
+  }
 
-  // --- Delegación: subir imagen (sirve también para platos nuevos) ---
+  // --- Menú: subir imagen (delegación) ---
   menuContainer.addEventListener("change", async (e) => {
     if (!e.target.matches("[data-file]")) return;
     const card = e.target.closest("[data-plato]");
     const file = e.target.files[0];
     if (!file) return;
-
     const aviso = card.querySelector("[data-upload]");
     const hidden = card.querySelector('[data-campo="imagen"]');
     const preview = card.querySelector("[data-preview]");
-
     aviso.hidden = false;
     aviso.textContent = "Subiendo imagen…";
     aviso.className = "text-xs mt-1 text-stone-600";
@@ -193,7 +208,7 @@ const error = Astro.url.searchParams.get("error");
     }
   });
 
-  // --- Delegación: borrar plato ---
+  // --- Menú: borrar plato ---
   menuContainer.addEventListener("click", (e) => {
     if (!e.target.matches("[data-borrar]")) return;
     if (menuContainer.querySelectorAll("[data-plato]").length <= 1) {
@@ -204,7 +219,7 @@ const error = Astro.url.searchParams.get("error");
     renumerarPlatos();
   });
 
-  // --- Agregar plato (clona una tarjeta y la limpia) ---
+  // --- Menú: agregar plato ---
   document.querySelector("[data-agregar-plato]")?.addEventListener("click", () => {
     const nuevo = menuContainer.querySelector("[data-plato]").cloneNode(true);
     nuevo.querySelectorAll("[data-campo]").forEach((el) => { el.value = ""; });
@@ -217,31 +232,44 @@ const error = Astro.url.searchParams.get("error");
     renumerarPlatos();
   });
 
+  // --- Testimonios: borrar ---
+  testiContainer.addEventListener("click", (e) => {
+    if (!e.target.matches("[data-borrar-testi]")) return;
+    if (testiContainer.querySelectorAll("[data-testi]").length <= 1) {
+      alert("Debe quedar al menos un testimonio.");
+      return;
+    }
+    e.target.closest("[data-testi]").remove();
+    renumerarTestimonios();
+  });
+
+  // --- Testimonios: agregar ---
+  document.querySelector("[data-agregar-testi]")?.addEventListener("click", () => {
+    const nuevo = testiContainer.querySelector("[data-testi]").cloneNode(true);
+    nuevo.querySelectorAll("[data-campo]").forEach((el) => { el.value = ""; });
+    testiContainer.appendChild(nuevo);
+    renumerarTestimonios();
+  });
+
   // --- Guardar ---
   btn?.addEventListener("click", async () => {
-    // sitio (objeto)
     const sitio = { ...sitioActual };
     document.querySelectorAll("[data-sitio] [data-campo]").forEach((el) => {
       sitio[el.dataset.campo] = el.value;
     });
 
-    // menú: leer las tarjetas que haya AHORA en el DOM
     const menu = [];
     menuContainer.querySelectorAll("[data-plato]").forEach((card) => {
       const plato = {};
-      card.querySelectorAll("[data-campo]").forEach((el) => {
-        plato[el.dataset.campo] = el.value;
-      });
+      card.querySelectorAll("[data-campo]").forEach((el) => { plato[el.dataset.campo] = el.value; });
       menu.push(plato);
     });
 
-    // testimonios (siguen fijos, igual que antes)
-    const testimonios = testimoniosActual.map((t, i) => {
-      const nuevo = { ...t };
-      document.querySelectorAll(`[data-testi="${i}"]`).forEach((el) => {
-        nuevo[el.dataset.campo] = el.value;
-      });
-      return nuevo;
+    const testimonios = [];
+    testiContainer.querySelectorAll("[data-testi]").forEach((card) => {
+      const t = {};
+      card.querySelectorAll("[data-campo]").forEach((el) => { t[el.dataset.campo] = el.value; });
+      testimonios.push(t);
     });
 
     const nuevaData = { sitio, menu, testimonios };
