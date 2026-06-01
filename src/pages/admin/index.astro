@@ -2,6 +2,7 @@
 export const prerender = false;
 
 import { sitio, menu, testimonios } from "../../config";
+import "../../styles/global.css";
 
 const logueado = Astro.cookies.get("sesion")?.value === "ok";
 const error = Astro.url.searchParams.get("error");
@@ -15,53 +16,115 @@ const error = Astro.url.searchParams.get("error");
   </head>
   <body class="min-h-screen bg-stone-100 p-6">
     {logueado ? (
-      <div class="max-w-2xl mx-auto">
-        <h1 class="text-2xl font-bold mb-6">Panel La Esquina 🍴</h1>
+      <div class="max-w-2xl mx-auto space-y-6">
+  <h1 class="text-2xl font-bold">Panel La Esquina 🍴</h1>
 
-        <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 space-y-4">
-          <h2 class="text-lg font-bold">Información del sitio</h2>
+  <!-- Card: info del sitio -->
+  <div data-sitio class="bg-white rounded-2xl shadow-lg p-6 md:p-8 space-y-4">
+    <h2 class="text-lg font-bold">Información del sitio</h2>
 
+    <label class="block">
+      <span class="block text-sm font-medium mb-1">Nombre del restaurante</span>
+      <input data-campo="nombre" value={sitio.nombre} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+    </label>
+    <label class="block">
+      <span class="block text-sm font-medium mb-1">Título principal (hero)</span>
+      <input data-campo="titulo" value={sitio.titulo} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+    </label>
+    <label class="block">
+      <span class="block text-sm font-medium mb-1">Subtítulo (hero)</span>
+      <input data-campo="subtitulo" value={sitio.subtitulo} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+    </label>
+    <label class="block">
+      <span class="block text-sm font-medium mb-1">Dirección</span>
+      <input data-campo="direccion" value={sitio.direccion} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+    </label>
+    <label class="block">
+      <span class="block text-sm font-medium mb-1">Teléfono</span>
+      <input data-campo="telefono" value={sitio.telefono} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+    </label>
+    <label class="block">
+      <span class="block text-sm font-medium mb-1">Email</span>
+      <input data-campo="email" value={sitio.email} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+    </label>
+    <label class="block">
+      <span class="block text-sm font-medium mb-1">Horario</span>
+      <input data-campo="horario" value={sitio.horario} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+    </label>
+  </div>
+
+  <!-- Card: menú -->
+  <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 space-y-4">
+    <h2 class="text-lg font-bold">Menú 🍽️</h2>
+
+    <div data-menu-lista class="space-y-4">
+      {menu.map((plato, i) => (
+        <div data-plato class="border border-stone-200 rounded-xl p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <p data-plato-num class="text-sm font-semibold text-amber-700">Plato {i + 1}</p>
+            <button type="button" data-borrar class="text-sm text-red-600 hover:text-red-700 font-medium">Borrar</button>
+          </div>
           <label class="block">
-            <span class="block text-sm font-medium mb-1">Nombre del restaurante</span>
-            <input data-campo="nombre" value={sitio.nombre} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+            <span class="block text-sm font-medium mb-1">Nombre</span>
+            <input data-campo="nombre" value={plato.nombre} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
           </label>
-
           <label class="block">
-            <span class="block text-sm font-medium mb-1">Título principal (hero)</span>
-            <input data-campo="titulo" value={sitio.titulo} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+            <span class="block text-sm font-medium mb-1">Precio</span>
+            <input data-campo="precio" value={plato.precio} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
           </label>
-
           <label class="block">
-            <span class="block text-sm font-medium mb-1">Subtítulo (hero)</span>
-            <input data-campo="subtitulo" value={sitio.subtitulo} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+            <span class="block text-sm font-medium mb-1">Descripción</span>
+            <textarea data-campo="descripcion" rows="2" class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700">{plato.descripcion}</textarea>
           </label>
-
-          <label class="block">
-            <span class="block text-sm font-medium mb-1">Dirección</span>
-            <input data-campo="direccion" value={sitio.direccion} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
-          </label>
-
-          <label class="block">
-            <span class="block text-sm font-medium mb-1">Teléfono</span>
-            <input data-campo="telefono" value={sitio.telefono} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
-          </label>
-
-          <label class="block">
-            <span class="block text-sm font-medium mb-1">Email</span>
-            <input data-campo="email" value={sitio.email} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
-          </label>
-
-          <label class="block">
-            <span class="block text-sm font-medium mb-1">Horario</span>
-            <input data-campo="horario" value={sitio.horario} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
-          </label>
-
-          <button data-guardar class="w-full bg-amber-700 hover:bg-amber-800 text-white font-semibold py-3 rounded-lg transition mt-2 disabled:opacity-60">
-            Guardar cambios
-          </button>
-          <p data-estado hidden class="text-sm text-center"></p>
+          <div>
+            <span class="block text-sm font-medium mb-1">Imagen del plato</span>
+            <img data-preview src={plato.imagen} alt={plato.nombre} class="w-32 h-24 object-cover rounded-lg border border-stone-200 mb-2" />
+            <input type="file" accept="image/*" data-file class="block w-full text-sm text-stone-600 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-amber-700 file:text-white file:cursor-pointer hover:file:bg-amber-800" />
+            <p data-upload hidden class="text-xs mt-1"></p>
+            <input type="hidden" data-campo="imagen" value={plato.imagen} />
+          </div>
         </div>
+      ))}
+    </div>
+
+    <button type="button" data-agregar-plato class="w-full border-2 border-dashed border-amber-700 text-amber-700 font-semibold py-2 rounded-lg hover:bg-amber-50 transition">
+      + Agregar plato
+    </button>
+  </div>
+  <!-- Card: testimonios -->
+  <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 space-y-4">
+    <h2 class="text-lg font-bold">Testimonios 💬</h2>
+    {testimonios.map((t, i) => (
+      <div class="border border-stone-200 rounded-xl p-4 space-y-3">
+        <p class="text-sm font-semibold text-amber-700">Testimonio {i + 1}</p>
+        <label class="block">
+          <span class="block text-sm font-medium mb-1">Texto</span>
+          <textarea data-testi={i} data-campo="texto" rows="3" class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700">{t.texto}</textarea>
+        </label>
+        <label class="block">
+          <span class="block text-sm font-medium mb-1">Nombre</span>
+          <input data-testi={i} data-campo="nombre" value={t.nombre} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+        </label>
+        <label class="block">
+          <span class="block text-sm font-medium mb-1">Rol</span>
+          <input data-testi={i} data-campo="rol" value={t.rol} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+        </label>
+        <label class="block">
+          <span class="block text-sm font-medium mb-1">Avatar (URL)</span>
+          <input data-testi={i} data-campo="avatar" value={t.avatar} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+        </label>
       </div>
+    ))}
+  </div>
+
+  <!-- Guardar (uno solo, para todo) -->
+  <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+    <button data-guardar class="w-full bg-amber-700 hover:bg-amber-800 text-white font-semibold py-3 rounded-lg transition disabled:opacity-60">
+      Guardar cambios
+    </button>
+    <p data-estado hidden class="text-sm text-center mt-3"></p>
+  </div>
+</div>
     ) : (
       <div class="min-h-screen flex items-center justify-center">
         <form method="POST" action="/api/login" class="bg-white rounded-2xl shadow-lg p-8 max-w-md w-full">
@@ -75,42 +138,135 @@ const error = Astro.url.searchParams.get("error");
     )}
 
     <script define:vars={{ sitioActual: sitio, menuActual: menu, testimoniosActual: testimonios }}>
-      const btn = document.querySelector("[data-guardar]");
-      const estado = document.querySelector("[data-estado]");
+  const btn = document.querySelector("[data-guardar]");
+  const estado = document.querySelector("[data-estado]");
+  const menuContainer = document.querySelector("[data-menu-lista]");
 
-      btn?.addEventListener("click", async () => {
-        const sitio = { ...sitioActual };
-        document.querySelectorAll("[data-campo]").forEach((el) => {
-          sitio[el.dataset.campo] = el.value;
-        });
+  // --- Cloudinary ---
+  const CLOUD_NAME = "dw26ujhoo";
+  const UPLOAD_PRESET = "portafolio_unsigned";
 
-        const nuevaData = { sitio, menu: menuActual, testimonios: testimoniosActual };
+  async function subirACloudinary(file) {
+    const form = new FormData();
+    form.append("file", file);
+    form.append("upload_preset", UPLOAD_PRESET);
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method: "POST", body: form });
+    if (!res.ok) throw new Error("Falló la subida");
+    const data = await res.json();
+    return data.secure_url;
+  }
 
-        estado.hidden = false;
-        estado.textContent = "Guardando…";
-        estado.className = "text-sm text-center text-stone-600";
-        btn.disabled = true;
+  // --- Renumerar los "Plato N" tras agregar/borrar ---
+  function renumerarPlatos() {
+    menuContainer.querySelectorAll("[data-plato]").forEach((card, i) => {
+      const num = card.querySelector("[data-plato-num]");
+      if (num) num.textContent = `Plato ${i + 1}`;
+    });
+  }
 
-        try {
-          const res = await fetch("/api/guardar", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(nuevaData),
-          });
-          if (res.ok) {
-            estado.textContent = "¡Guardado! La web se actualizará en ~1 min. 🎉";
-            estado.className = "text-sm text-center text-green-700";
-          } else {
-            estado.textContent = "Algo falló al guardar. Intenta de nuevo.";
-            estado.className = "text-sm text-center text-red-700";
-          }
-        } catch {
-          estado.textContent = "No pudimos conectar. Revisa tu red.";
-          estado.className = "text-sm text-center text-red-700";
-        } finally {
-          btn.disabled = false;
-        }
+  // --- Delegación: subir imagen (sirve también para platos nuevos) ---
+  menuContainer.addEventListener("change", async (e) => {
+    if (!e.target.matches("[data-file]")) return;
+    const card = e.target.closest("[data-plato]");
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const aviso = card.querySelector("[data-upload]");
+    const hidden = card.querySelector('[data-campo="imagen"]');
+    const preview = card.querySelector("[data-preview]");
+
+    aviso.hidden = false;
+    aviso.textContent = "Subiendo imagen…";
+    aviso.className = "text-xs mt-1 text-stone-600";
+    try {
+      const url = await subirACloudinary(file);
+      hidden.value = url;
+      preview.src = url;
+      aviso.textContent = "¡Imagen lista! ✅";
+      aviso.className = "text-xs mt-1 text-green-700";
+    } catch {
+      aviso.textContent = "No se pudo subir. Intenta de nuevo.";
+      aviso.className = "text-xs mt-1 text-red-700";
+    }
+  });
+
+  // --- Delegación: borrar plato ---
+  menuContainer.addEventListener("click", (e) => {
+    if (!e.target.matches("[data-borrar]")) return;
+    if (menuContainer.querySelectorAll("[data-plato]").length <= 1) {
+      alert("Debe quedar al menos un plato.");
+      return;
+    }
+    e.target.closest("[data-plato]").remove();
+    renumerarPlatos();
+  });
+
+  // --- Agregar plato (clona una tarjeta y la limpia) ---
+  document.querySelector("[data-agregar-plato]")?.addEventListener("click", () => {
+    const nuevo = menuContainer.querySelector("[data-plato]").cloneNode(true);
+    nuevo.querySelectorAll("[data-campo]").forEach((el) => { el.value = ""; });
+    nuevo.querySelector("[data-file]").value = "";
+    nuevo.querySelector("[data-preview]").src = "https://placehold.co/300x200?text=Sin+foto";
+    const aviso = nuevo.querySelector("[data-upload]");
+    aviso.hidden = true;
+    aviso.textContent = "";
+    menuContainer.appendChild(nuevo);
+    renumerarPlatos();
+  });
+
+  // --- Guardar ---
+  btn?.addEventListener("click", async () => {
+    // sitio (objeto)
+    const sitio = { ...sitioActual };
+    document.querySelectorAll("[data-sitio] [data-campo]").forEach((el) => {
+      sitio[el.dataset.campo] = el.value;
+    });
+
+    // menú: leer las tarjetas que haya AHORA en el DOM
+    const menu = [];
+    menuContainer.querySelectorAll("[data-plato]").forEach((card) => {
+      const plato = {};
+      card.querySelectorAll("[data-campo]").forEach((el) => {
+        plato[el.dataset.campo] = el.value;
       });
-    </script>
+      menu.push(plato);
+    });
+
+    // testimonios (siguen fijos, igual que antes)
+    const testimonios = testimoniosActual.map((t, i) => {
+      const nuevo = { ...t };
+      document.querySelectorAll(`[data-testi="${i}"]`).forEach((el) => {
+        nuevo[el.dataset.campo] = el.value;
+      });
+      return nuevo;
+    });
+
+    const nuevaData = { sitio, menu, testimonios };
+
+    estado.hidden = false;
+    estado.textContent = "Guardando…";
+    estado.className = "text-sm text-center text-stone-600";
+    btn.disabled = true;
+    try {
+      const res = await fetch("/api/guardar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(nuevaData),
+      });
+      if (res.ok) {
+        estado.textContent = "¡Guardado! La web se actualizará en ~1 min. 🎉";
+        estado.className = "text-sm text-center text-green-700";
+      } else {
+        estado.textContent = "Algo falló al guardar. Intenta de nuevo.";
+        estado.className = "text-sm text-center text-red-700";
+      }
+    } catch {
+      estado.textContent = "No pudimos conectar. Revisa tu red.";
+      estado.className = "text-sm text-center text-red-700";
+    } finally {
+      btn.disabled = false;
+    }
+  });
+</script>
   </body>
 </html>
