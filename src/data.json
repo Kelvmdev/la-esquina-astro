@@ -44,6 +44,12 @@
       "precio": "$8.000",
       "descripcion": "Postre paisa de maíz con leche, acompañado de panela.",
       "imagen": "https://images.pexels.com/photos/37825034/pexels-photo-37825034.jpeg?auto=compress&cs=tinysrgb&w=800"
+    },
+    {
+      "nombre": "fgsh",
+      "precio": "34455",
+      "descripcion": "egwe",
+      "imagen": "https://res.cloudinary.com/dw26ujhoo/image/upload/v1780325525/fisas0gpltgum6j5ajto.png"
     }
   ],
   "testimonios": [
