@@ -117,10 +117,13 @@ const error = Astro.url.searchParams.get("error");
             <span class="block text-sm font-medium mb-1">Rol</span>
             <input data-campo="rol" value={t.rol} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
           </label>
-          <label class="block">
-            <span class="block text-sm font-medium mb-1">Avatar (URL)</span>
-            <input data-campo="avatar" value={t.avatar} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
-          </label>
+          <div>
+            <span class="block text-sm font-medium mb-1">Avatar</span>
+            <img data-preview-avatar src={t.avatar} alt={t.nombre} class="w-16 h-16 object-cover rounded-full border border-stone-200 mb-2" />
+            <input type="file" accept="image/*" data-file-avatar class="block w-full text-sm text-stone-600 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-amber-700 file:text-white file:cursor-pointer hover:file:bg-amber-800" />
+            <p data-upload-avatar hidden class="text-xs mt-1"></p>
+            <input type="hidden" data-campo="avatar" value={t.avatar} />
+          </div>
         </div>
       ))}
     </div>
@@ -176,6 +179,12 @@ const error = Astro.url.searchParams.get("error");
 
   const CLOUD_NAME = "dw26ujhoo";
   const UPLOAD_PRESET = "portafolio_unsigned";
+
+  function avisarError(msg) {
+    estado.hidden = false;
+    estado.textContent = msg;
+    estado.className = "text-sm text-center text-red-700";
+  }
 
   async function subirACloudinary(file) {
     const form = new FormData();
@@ -248,6 +257,30 @@ const error = Astro.url.searchParams.get("error");
     renumerarPlatos();
   });
 
+  // Testimonios: subir avatar
+  testiContainer.addEventListener("change", async (e) => {
+    if (!e.target.matches("[data-file-avatar]")) return;
+    const card = e.target.closest("[data-testi]");
+    const file = e.target.files[0];
+    if (!file) return;
+    const aviso = card.querySelector("[data-upload-avatar]");
+    const hidden = card.querySelector('[data-campo="avatar"]');
+    const preview = card.querySelector("[data-preview-avatar]");
+    aviso.hidden = false;
+    aviso.textContent = "Subiendo avatar…";
+    aviso.className = "text-xs mt-1 text-stone-600";
+    try {
+      const url = await subirACloudinary(file);
+      hidden.value = url;
+      preview.src = url;
+      aviso.textContent = "¡Avatar listo! ✅";
+      aviso.className = "text-xs mt-1 text-green-700";
+    } catch {
+      aviso.textContent = "No se pudo subir. Intenta de nuevo.";
+      aviso.className = "text-xs mt-1 text-red-700";
+    }
+  });
+
   // Testimonios: borrar
   testiContainer.addEventListener("click", (e) => {
     if (!e.target.matches("[data-borrar-testi]")) return;
@@ -263,6 +296,12 @@ const error = Astro.url.searchParams.get("error");
   document.querySelector("[data-agregar-testi]")?.addEventListener("click", () => {
     const nuevo = testiContainer.querySelector("[data-testi]").cloneNode(true);
     nuevo.querySelectorAll("[data-campo]").forEach((el) => { el.value = ""; });
+    const fileAv = nuevo.querySelector("[data-file-avatar]");
+    if (fileAv) fileAv.value = "";
+    const prevAv = nuevo.querySelector("[data-preview-avatar]");
+    if (prevAv) prevAv.src = "https://placehold.co/100x100?text=Avatar";
+    const avAviso = nuevo.querySelector("[data-upload-avatar]");
+    if (avAviso) { avAviso.hidden = true; avAviso.textContent = ""; }
     testiContainer.appendChild(nuevo);
     renumerarTestimonios();
   });
@@ -331,6 +370,11 @@ const error = Astro.url.searchParams.get("error");
     });
 
     const galeria = Array.from(galeriaContainer.querySelectorAll("[data-foto-item] img")).map((img) => img.src);
+
+    // --- Validación mínima (#6) ---
+    if (!sitio.nombre.trim()) return avisarError("⚠️ El nombre del restaurante no puede estar vacío.");
+    if (menu.some((p) => !p.nombre.trim() || !p.precio.trim())) return avisarError("⚠️ Hay un plato sin nombre o sin precio.");
+    if (testimonios.some((t) => !t.texto.trim() || !t.nombre.trim())) return avisarError("⚠️ Hay un testimonio sin texto o sin nombre.");
 
     const nuevaData = { sitio, menu, testimonios, galeria };
 
