@@ -1,7 +1,7 @@
 ---
 export const prerender = false;
 
-import { sitio, menu, testimonios } from "../../config";
+import { sitio, menu, testimonios, galeria } from "../../config";
 import "../../styles/global.css";
 
 const logueado = Astro.cookies.get("sesion")?.value === "ok";
@@ -129,6 +129,23 @@ const error = Astro.url.searchParams.get("error");
       + Agregar testimonio
     </button>
   </div>
+  <!-- Card: galería -->
+  <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8 space-y-4">
+    <h2 class="text-lg font-bold">Galería 🖼️</h2>
+    <p class="text-sm text-stone-500">Fotos del local que se muestran en la web.</p>
+
+    <div data-galeria-lista class="grid grid-cols-3 gap-3">
+      {galeria.map((url) => (
+        <div data-foto-item class="relative group">
+          <img src={url} class="w-full aspect-square object-cover rounded-lg border border-stone-200" />
+          <button type="button" data-borrar-foto class="absolute top-1 right-1 bg-red-600 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center opacity-90 hover:bg-red-700">✕</button>
+        </div>
+      ))}
+    </div>
+
+    <input type="file" accept="image/*" multiple data-file-galeria class="block w-full text-sm text-stone-600 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-amber-700 file:text-white file:cursor-pointer hover:file:bg-amber-800" />
+    <p data-upload-galeria hidden class="text-xs"></p>
+  </div>
 
   <!-- Guardar (uno solo, para todo) -->
   <div class="bg-white rounded-2xl shadow-lg p-6 md:p-8">
@@ -155,8 +172,8 @@ const error = Astro.url.searchParams.get("error");
   const estado = document.querySelector("[data-estado]");
   const menuContainer = document.querySelector("[data-menu-lista]");
   const testiContainer = document.querySelector("[data-testi-lista]");
+  const galeriaContainer = document.querySelector("[data-galeria-lista]");
 
-  // --- Cloudinary ---
   const CLOUD_NAME = "dw26ujhoo";
   const UPLOAD_PRESET = "portafolio_unsigned";
 
@@ -170,7 +187,6 @@ const error = Astro.url.searchParams.get("error");
     return data.secure_url;
   }
 
-  // --- Renumerar ---
   function renumerarPlatos() {
     menuContainer.querySelectorAll("[data-plato]").forEach((card, i) => {
       const num = card.querySelector("[data-plato-num]");
@@ -184,7 +200,7 @@ const error = Astro.url.searchParams.get("error");
     });
   }
 
-  // --- Menú: subir imagen (delegación) ---
+  // Menú: subir imagen
   menuContainer.addEventListener("change", async (e) => {
     if (!e.target.matches("[data-file]")) return;
     const card = e.target.closest("[data-plato]");
@@ -208,7 +224,7 @@ const error = Astro.url.searchParams.get("error");
     }
   });
 
-  // --- Menú: borrar plato ---
+  // Menú: borrar
   menuContainer.addEventListener("click", (e) => {
     if (!e.target.matches("[data-borrar]")) return;
     if (menuContainer.querySelectorAll("[data-plato]").length <= 1) {
@@ -219,7 +235,7 @@ const error = Astro.url.searchParams.get("error");
     renumerarPlatos();
   });
 
-  // --- Menú: agregar plato ---
+  // Menú: agregar
   document.querySelector("[data-agregar-plato]")?.addEventListener("click", () => {
     const nuevo = menuContainer.querySelector("[data-plato]").cloneNode(true);
     nuevo.querySelectorAll("[data-campo]").forEach((el) => { el.value = ""; });
@@ -232,7 +248,7 @@ const error = Astro.url.searchParams.get("error");
     renumerarPlatos();
   });
 
-  // --- Testimonios: borrar ---
+  // Testimonios: borrar
   testiContainer.addEventListener("click", (e) => {
     if (!e.target.matches("[data-borrar-testi]")) return;
     if (testiContainer.querySelectorAll("[data-testi]").length <= 1) {
@@ -243,7 +259,7 @@ const error = Astro.url.searchParams.get("error");
     renumerarTestimonios();
   });
 
-  // --- Testimonios: agregar ---
+  // Testimonios: agregar
   document.querySelector("[data-agregar-testi]")?.addEventListener("click", () => {
     const nuevo = testiContainer.querySelector("[data-testi]").cloneNode(true);
     nuevo.querySelectorAll("[data-campo]").forEach((el) => { el.value = ""; });
@@ -251,7 +267,49 @@ const error = Astro.url.searchParams.get("error");
     renumerarTestimonios();
   });
 
-  // --- Guardar ---
+  // Galería: crear miniatura
+  function itemFoto(url) {
+    const div = document.createElement("div");
+    div.dataset.fotoItem = "";
+    div.className = "relative group";
+    div.innerHTML = `
+      <img src="${url}" class="w-full aspect-square object-cover rounded-lg border border-stone-200" />
+      <button type="button" data-borrar-foto class="absolute top-1 right-1 bg-red-600 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center opacity-90 hover:bg-red-700">✕</button>
+    `;
+    return div;
+  }
+
+  // Galería: subir varias
+  const fileGaleria = document.querySelector("[data-file-galeria]");
+  const avisoGaleria = document.querySelector("[data-upload-galeria]");
+  fileGaleria?.addEventListener("change", async () => {
+    const files = Array.from(fileGaleria.files || []);
+    if (files.length === 0) return;
+    avisoGaleria.hidden = false;
+    let subidas = 0;
+    for (const file of files) {
+      avisoGaleria.textContent = `Subiendo ${subidas + 1} de ${files.length}…`;
+      avisoGaleria.className = "text-xs text-stone-600";
+      try {
+        const url = await subirACloudinary(file);
+        galeriaContainer.appendChild(itemFoto(url));
+        subidas++;
+      } catch {}
+    }
+    avisoGaleria.textContent = subidas === files.length
+      ? `✅ ${subidas} foto(s) agregada(s)`
+      : `⚠️ Subidas ${subidas} de ${files.length}`;
+    avisoGaleria.className = "text-xs text-green-700";
+    fileGaleria.value = "";
+  });
+
+  // Galería: borrar foto
+  galeriaContainer.addEventListener("click", (e) => {
+    if (!e.target.matches("[data-borrar-foto]")) return;
+    e.target.closest("[data-foto-item]").remove();
+  });
+
+  // Guardar
   btn?.addEventListener("click", async () => {
     const sitio = { ...sitioActual };
     document.querySelectorAll("[data-sitio] [data-campo]").forEach((el) => {
@@ -272,7 +330,9 @@ const error = Astro.url.searchParams.get("error");
       testimonios.push(t);
     });
 
-    const nuevaData = { sitio, menu, testimonios };
+    const galeria = Array.from(galeriaContainer.querySelectorAll("[data-foto-item] img")).map((img) => img.src);
+
+    const nuevaData = { sitio, menu, testimonios, galeria };
 
     estado.hidden = false;
     estado.textContent = "Guardando…";
