@@ -5,7 +5,9 @@ import { sitio } from '../config';
 const {
   titulo,
   descripcion,
-  imagen = 'https://images.pexels.com/photos/34442359/pexels-photo-34442359.jpeg?w=1200',
+  imagen = 'https://images.pexels.com/photos/34442359/pexels-photo-34442359.jpeg?auto=compress&cs=tinysrgb&w=1200',
+  // Solo la home precarga su imagen hero (es el elemento LCP de esa página)
+  preloadHero = false,
 } = Astro.props;
 
 // URL canónica de la página actual (respeta el `site` de astro.config)
@@ -44,6 +46,17 @@ const jsonLd = {
     <!-- Acelera la carga de imágenes externas (LCP) -->
     <link rel="preconnect" href="https://images.pexels.com" crossorigin />
     <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+
+    {preloadHero && (
+      <link
+        rel="preload"
+        as="image"
+        href="https://images.pexels.com/photos/34442359/pexels-photo-34442359.jpeg?auto=compress&cs=tinysrgb&w=1200"
+        imagesrcset="https://images.pexels.com/photos/34442359/pexels-photo-34442359.jpeg?auto=compress&cs=tinysrgb&w=768 768w, https://images.pexels.com/photos/34442359/pexels-photo-34442359.jpeg?auto=compress&cs=tinysrgb&w=1200 1200w, https://images.pexels.com/photos/34442359/pexels-photo-34442359.jpeg?auto=compress&cs=tinysrgb&w=1600 1600w"
+        imagesizes="100vw"
+        fetchpriority="high"
+      />
+    )}
 
     <title>{titulo}</title>
     <meta name="description" content={descripcion} />
