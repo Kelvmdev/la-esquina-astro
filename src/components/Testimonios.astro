@@ -11,7 +11,7 @@ import { testimonios } from "../config";
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       {testimonios.map((t) => (
         <div class="bg-white p-8 rounded-2xl shadow-lg">
-          <div class="text-amber-500 text-2xl mb-4">★★★★★</div>
+          <div class="text-amber-500 text-2xl mb-4" role="img" aria-label="Calificación de 5 de 5 estrellas">★★★★★</div>
           <p class="text-stone-700 italic mb-6">"{t.texto}"</p>
           <div class="flex items-center gap-4">
             <img src={t.avatar} alt={`Foto de ${t.nombre}`} width="48" height="48" loading="lazy" decoding="async" class="w-12 h-12 rounded-full" />

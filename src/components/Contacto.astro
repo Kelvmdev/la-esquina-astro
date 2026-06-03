@@ -14,7 +14,7 @@ import { sitio } from "../config";
         <h3 class="text-2xl font-bold mb-6">Visítanos</h3>
         <div class="space-y-6">
           <div class="flex items-start gap-4">
-            <div class="text-3xl">📍</div>
+            <div class="text-3xl" aria-hidden="true">📍</div>
             <div>
               <div class="font-bold">Dirección</div>
               <p class="text-stone-600">{sitio.direccion}</p>
@@ -24,21 +24,21 @@ import { sitio } from "../config";
           <Mapa lat={6.209468} lon={-75.569725} alto="h-64" />
 
           <div class="flex items-start gap-4">
-            <div class="text-3xl">📞</div>
+            <div class="text-3xl" aria-hidden="true">📞</div>
             <div>
               <div class="font-bold">Teléfono</div>
               <p class="text-stone-600">{sitio.telefono}</p>
             </div>
           </div>
           <div class="flex items-start gap-4">
-            <div class="text-3xl">✉️</div>
+            <div class="text-3xl" aria-hidden="true">✉️</div>
             <div>
               <div class="font-bold">Email</div>
               <p class="text-stone-600">{sitio.email}</p>
             </div>
           </div>
           <div class="flex items-start gap-4">
-            <div class="text-3xl">🕐</div>
+            <div class="text-3xl" aria-hidden="true">🕐</div>
             <div>
               <div class="font-bold">Horario</div>
               <p class="text-stone-600">{sitio.horario}</p>
@@ -52,25 +52,25 @@ import { sitio } from "../config";
         <form id="form-reserva" class="space-y-4">
           <input type="hidden" name="_subject" value="Nueva reserva — La Esquina" />
           <div>
-            <label class="block text-sm font-medium mb-2">Nombre completo</label>
-            <input type="text" name="nombre" required class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" placeholder="Tu nombre" />
+            <label for="nombre" class="block text-sm font-medium mb-2">Nombre completo</label>
+            <input id="nombre" type="text" name="nombre" required class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700 focus-visible:ring-2 focus-visible:ring-amber-700" placeholder="Tu nombre" />
           </div>
           <div>
-            <label class="block text-sm font-medium mb-2">Email</label>
-            <input type="email" name="email" required class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" placeholder="tu@email.com" />
+            <label for="email" class="block text-sm font-medium mb-2">Email</label>
+            <input id="email" type="email" name="email" required class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700 focus-visible:ring-2 focus-visible:ring-amber-700" placeholder="tu@email.com" />
           </div>
           <div>
-            <label class="block text-sm font-medium mb-2">Teléfono</label>
-            <input type="tel" name="telefono" required class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" placeholder="+57 300 123 4567" />
+            <label for="telefono" class="block text-sm font-medium mb-2">Teléfono</label>
+            <input id="telefono" type="tel" name="telefono" required class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700 focus-visible:ring-2 focus-visible:ring-amber-700" placeholder="+57 300 123 4567" />
           </div>
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-medium mb-2">Fecha</label>
-              <input type="date" name="fecha" required class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+              <label for="fecha" class="block text-sm font-medium mb-2">Fecha</label>
+              <input id="fecha" type="date" name="fecha" required class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700 focus-visible:ring-2 focus-visible:ring-amber-700" />
             </div>
             <div>
-              <label class="block text-sm font-medium mb-2">Personas</label>
-              <select name="personas" class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700">
+              <label for="personas" class="block text-sm font-medium mb-2">Personas</label>
+              <select id="personas" name="personas" class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700 focus-visible:ring-2 focus-visible:ring-amber-700">
                 <option>2 personas</option>
                 <option>4 personas</option>
                 <option>6 personas</option>
@@ -79,10 +79,10 @@ import { sitio } from "../config";
             </div>
           </div>
           <div>
-            <label class="block text-sm font-medium mb-2">Nota (opcional)</label>
-            <textarea name="nota" rows="3" class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700 resize-none" placeholder="¿Algo especial? Cumpleaños, alergias, mesa en terraza…"></textarea>
+            <label for="nota" class="block text-sm font-medium mb-2">Nota (opcional)</label>
+            <textarea id="nota" name="nota" rows="3" class="w-full px-4 py-3 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700 focus-visible:ring-2 focus-visible:ring-amber-700 resize-none" placeholder="¿Algo especial? Cumpleaños, alergias, mesa en terraza…"></textarea>
           </div>
-          <button type="submit" class="w-full bg-amber-700 hover:bg-amber-800 text-white font-semibold py-3 rounded-lg transition mt-4 disabled:opacity-60">
+          <button type="submit" class="w-full bg-amber-700 hover:bg-amber-800 text-white font-semibold py-3 rounded-lg transition mt-4 disabled:opacity-60 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2">
             <span data-btn-label>Confirmar reserva</span>
             <span data-btn-spinner hidden>Enviando…</span>
           </button>

@@ -5,21 +5,21 @@ import { sitio } from "../config";
 <nav class="bg-white shadow-md sticky top-0 z-50">
   <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
 
-    <a href="#inicio" class="text-2xl font-bold text-amber-700">
-      🍴 {sitio.nombre}
+    <a href="#inicio" class="text-2xl font-bold text-amber-700 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2">
+      <span aria-hidden="true">🍴</span> {sitio.nombre}
     </a>
 
     <!-- Enlaces (solo desktop) -->
     <div class="hidden md:flex gap-8 text-stone-700">
-      <a href="#sobre" class="hover:text-amber-700 transition">Sobre nosotros</a>
-      <a href="#menu" class="hover:text-amber-700 transition">Menú</a>
-      <a href="#galeria" class="hover:text-amber-700 transition">Galería</a>
-      <a href="#testimonios" class="hover:text-amber-700 transition">Opiniones</a>
-      <a href="#contacto" class="hover:text-amber-700 transition">Contacto</a>
+      <a href="#sobre" class="hover:text-amber-700 transition rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2">Sobre nosotros</a>
+      <a href="#menu" class="hover:text-amber-700 transition rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2">Menú</a>
+      <a href="#galeria" class="hover:text-amber-700 transition rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2">Galería</a>
+      <a href="#testimonios" class="hover:text-amber-700 transition rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2">Opiniones</a>
+      <a href="#contacto" class="hover:text-amber-700 transition rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2">Contacto</a>
     </div>
 
     <!-- Botón Reservar (solo desktop) -->
-    <a href="#contacto" class="hidden md:inline-block bg-amber-700 hover:bg-amber-800 text-white px-5 py-2 rounded-lg font-medium transition">
+    <a href="#contacto" class="hidden md:inline-block bg-amber-700 hover:bg-amber-800 text-white px-5 py-2 rounded-lg font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2">
       Reservar
     </a>
 
@@ -28,7 +28,7 @@ import { sitio } from "../config";
       data-menu-btn
       aria-label="Abrir menú"
       aria-expanded="false"
-      class="md:hidden text-3xl text-stone-700 leading-none"
+      class="md:hidden text-3xl text-stone-700 leading-none rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700"
     >
       ☰
     </button>
@@ -37,12 +37,12 @@ import { sitio } from "../config";
 
   <!-- Menú móvil (oculto por defecto) -->
   <div data-menu-mobile class="hidden md:hidden bg-white border-t border-stone-200 px-6 py-4 text-stone-700">
-    <a href="#sobre" class="block py-2 hover:text-amber-700 transition">Sobre nosotros</a>
-    <a href="#menu" class="block py-2 hover:text-amber-700 transition">Menú</a>
-    <a href="#galeria" class="block py-2 hover:text-amber-700 transition">Galería</a>
-    <a href="#testimonios" class="block py-2 hover:text-amber-700 transition">Opiniones</a>
-    <a href="#contacto" class="block py-2 hover:text-amber-700 transition">Contacto</a>
-    <a href="#contacto" class="block mt-3 bg-amber-700 hover:bg-amber-800 text-white px-5 py-2 rounded-lg font-medium transition text-center">Reservar</a>
+    <a href="#sobre" class="block py-2 hover:text-amber-700 transition rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700">Sobre nosotros</a>
+    <a href="#menu" class="block py-2 hover:text-amber-700 transition rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700">Menú</a>
+    <a href="#galeria" class="block py-2 hover:text-amber-700 transition rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700">Galería</a>
+    <a href="#testimonios" class="block py-2 hover:text-amber-700 transition rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700">Opiniones</a>
+    <a href="#contacto" class="block py-2 hover:text-amber-700 transition rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700">Contacto</a>
+    <a href="#contacto" class="block mt-3 bg-amber-700 hover:bg-amber-800 text-white px-5 py-2 rounded-lg font-medium transition text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700">Reservar</a>
   </div>
 </nav>
 
