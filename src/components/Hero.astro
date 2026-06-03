@@ -3,7 +3,15 @@ import { sitio } from "../config";
 ---
 
 <section id="inicio" class="relative h-screen flex items-center justify-center">
-<div class="absolute inset-0 bg-cover bg-center bg-[url('https://images.pexels.com/photos/34442359/pexels-photo-34442359.jpeg?w=1600')]"></div>
+  <img
+    src="https://images.pexels.com/photos/34442359/pexels-photo-34442359.jpeg?auto=compress&cs=tinysrgb&w=1600"
+    alt="Interior del restaurante La Esquina"
+    width="1600"
+    height="1067"
+    fetchpriority="high"
+    decoding="async"
+    class="absolute inset-0 w-full h-full object-cover"
+  />
   <div class="absolute inset-0 bg-black/60"></div>
   <div class="relative z-10 text-center text-white px-6 max-w-3xl">
     <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
@@ -11,6 +19,7 @@ import { sitio } from "../config";
     </h1>
     <p class="text-xl md:text-2xl text-stone-200 mb-8">
       {sitio.subtitulo}
+    </p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
       <a href="#menu" class="bg-amber-600 hover:bg-amber-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition">
         Ver Menú

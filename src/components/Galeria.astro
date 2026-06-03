@@ -13,7 +13,7 @@ const fotos = galeria;
     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
       {fotos.map((foto, i) => (
         <button data-foto={i} class="group overflow-hidden rounded-xl aspect-[4/3] cursor-pointer">
-          <img src={foto} alt={`Foto ${i + 1} de La Esquina`} loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+          <img src={foto} alt={`Foto ${i + 1} de La Esquina`} width="600" height="450" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
         </button>
       ))}
     </div>

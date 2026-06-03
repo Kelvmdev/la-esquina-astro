@@ -14,7 +14,7 @@ import { testimonios } from "../config";
           <div class="text-amber-500 text-2xl mb-4">★★★★★</div>
           <p class="text-stone-700 italic mb-6">"{t.texto}"</p>
           <div class="flex items-center gap-4">
-            <img src={t.avatar} alt={t.nombre} class="w-12 h-12 rounded-full" />
+            <img src={t.avatar} alt={`Foto de ${t.nombre}`} width="48" height="48" loading="lazy" decoding="async" class="w-12 h-12 rounded-full" />
             <div>
               <div class="font-bold">{t.nombre}</div>
               <div class="text-stone-500 text-sm">{t.rol}</div>

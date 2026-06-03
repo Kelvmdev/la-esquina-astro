@@ -1,13 +1,49 @@
 ---
 import '../styles/global.css';
-const { titulo, descripcion } = Astro.props;
+import { sitio } from '../config';
+
+const {
+  titulo,
+  descripcion,
+  imagen = 'https://images.pexels.com/photos/34442359/pexels-photo-34442359.jpeg?w=1200',
+} = Astro.props;
+
+// URL canónica de la página actual (respeta el `site` de astro.config)
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
+
+// Datos estructurados para negocio local (Google → resultados enriquecidos)
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Restaurant',
+  name: sitio.nombre,
+  description: descripcion,
+  image: imagen,
+  url: canonical,
+  telephone: sitio.telefono,
+  email: sitio.email,
+  servesCuisine: 'Comida paisa, cocina colombiana tradicional',
+  priceRange: '$$',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: sitio.direccion,
+    addressLocality: 'Medellín',
+    addressCountry: 'CO',
+  },
+  openingHours: 'Mo-Su 12:00-23:00',
+};
 ---
 
 <html lang="es" class="scroll-smooth">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#b45309" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Acelera la carga de imágenes externas (LCP) -->
+    <link rel="preconnect" href="https://images.pexels.com" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
 
     <title>{titulo}</title>
     <meta name="description" content={descripcion} />
@@ -15,13 +51,17 @@ const { titulo, descripcion } = Astro.props;
     <meta property="og:title" content={titulo} />
     <meta property="og:description" content={descripcion} />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://images.pexels.com/photos/34442359/pexels-photo-34442359.jpeg?w=1200" />
-    <meta property="og:url" content="https://la-esquina-astro.vercel.app/" />
+    <meta property="og:image" content={imagen} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:site_name" content={sitio.nombre} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={titulo} />
     <meta name="twitter:description" content={descripcion} />
-    <meta name="twitter:image" content="https://images.pexels.com/photos/34442359/pexels-photo-34442359.jpeg?w=1200" />
+    <meta name="twitter:image" content={imagen} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>
     <slot />
