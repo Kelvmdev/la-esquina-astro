@@ -5,21 +5,29 @@ import { sitio, heroSrcset } from '../config';
 const {
   titulo,
   descripcion,
-  imagen = 'https://images.pexels.com/photos/34442359/pexels-photo-34442359.jpeg?auto=compress&cs=tinysrgb&w=1200',
+  imagen,
+  imagenAlt = 'La Esquina — Restaurante de comida paisa en Medellín',
   // Solo la home precarga su imagen hero (es el elemento LCP de esa página)
   preloadHero = false,
 } = Astro.props;
 
-// URL canónica de la página actual (respeta el `site` de astro.config)
-const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
+const base = Astro.site ?? Astro.url;
 
-// Datos estructurados para negocio local (Google → resultados enriquecidos)
+// URL canónica de la página actual (respeta el `site` de astro.config)
+const canonical = new URL(Astro.url.pathname, base).href;
+
+// OG/Twitter por defecto: imagen de marca propia (1200×630). Las páginas pueden
+// pasar `imagen` para sobreescribirla. Siempre se emite como URL absoluta.
+const ogImagen = new URL(imagen ?? '/og.png', base).href;
+
+// Datos estructurados para negocio local (Google → resultados enriquecidos).
+// Para el schema usamos una foto real del restaurante, no la tarjeta de marca.
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Restaurant',
   name: sitio.nombre,
   description: descripcion,
-  image: imagen,
+  image: new URL(sitio.heroImagen, base).href,
   url: canonical,
   telephone: sitio.telefono,
   email: sitio.email,
@@ -41,6 +49,7 @@ const jsonLd = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#b45309" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="canonical" href={canonical} />
 
     <!-- Acelera la carga de imágenes externas (LCP) -->
@@ -64,7 +73,10 @@ const jsonLd = {
     <meta property="og:title" content={titulo} />
     <meta property="og:description" content={descripcion} />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content={imagen} />
+    <meta property="og:image" content={ogImagen} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={imagenAlt} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="es_CO" />
     <meta property="og:site_name" content={sitio.nombre} />
@@ -72,7 +84,8 @@ const jsonLd = {
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={titulo} />
     <meta name="twitter:description" content={descripcion} />
-    <meta name="twitter:image" content={imagen} />
+    <meta name="twitter:image" content={ogImagen} />
+    <meta name="twitter:image:alt" content={imagenAlt} />
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
