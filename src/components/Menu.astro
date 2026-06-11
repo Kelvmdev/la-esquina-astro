@@ -2,7 +2,7 @@
 import TarjetaPlato from "./TarjetaPlato.astro";
 import { menu } from "../config";
 
-const platos = menu;
+const destacados = menu.filter((plato) => plato.destacado);
 ---
 
 <section id="menu" class="py-20 px-6 bg-stone-100">
@@ -12,7 +12,12 @@ const platos = menu;
       <h2 class="text-4xl md:text-5xl font-bold mt-2">Platos que enamoran</h2>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {platos.map((plato) => <TarjetaPlato {...plato} />)}
+      {destacados.map((plato) => <TarjetaPlato {...plato} />)}
+    </div>
+    <div class="text-center mt-12">
+      <a href="/menu" class="inline-block bg-amber-700 hover:bg-amber-800 text-white px-8 py-4 rounded-lg font-semibold text-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2">
+        Ver carta completa →
+      </a>
     </div>
   </div>
 </section>

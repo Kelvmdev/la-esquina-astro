@@ -71,6 +71,30 @@
       "imagen": "https://images.pexels.com/photos/37825034/pexels-photo-37825034.jpeg?auto=compress&cs=tinysrgb&w=800",
       "categoria": "Postres",
       "destacado": false
+    },
+    {
+      "nombre": "Empanadas",
+      "precio": "$6.000",
+      "descripcion": "Empanadas de maíz crujientes rellenas de carne y papa, con ají de la casa.",
+      "imagen": "https://commons.wikimedia.org/wiki/Special:FilePath/Empanada.jpg?width=800",
+      "categoria": "Entradas",
+      "destacado": false
+    },
+    {
+      "nombre": "Limonada de Coco",
+      "precio": "$9.000",
+      "descripcion": "Refrescante limonada batida con crema de coco, servida bien fría.",
+      "imagen": "https://commons.wikimedia.org/wiki/Special:FilePath/Limonada%20de%20coco.jpg?width=800",
+      "categoria": "Bebidas",
+      "destacado": false
+    },
+    {
+      "nombre": "Arroz con Leche",
+      "precio": "$9.000",
+      "descripcion": "Postre cremoso de arroz cocido en leche con canela y un toque de panela.",
+      "imagen": "https://commons.wikimedia.org/wiki/Special:FilePath/Arroz%20con%20leche.jpg?width=800",
+      "categoria": "Postres",
+      "destacado": false
     }
   ],
   "testimonios": [

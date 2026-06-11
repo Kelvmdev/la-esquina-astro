@@ -1,44 +1,46 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import TarjetaPlato from "../components/TarjetaPlato.astro";
+import { menu } from "../config";
+
+// Orden fijo de categorías; se omiten las que no tengan platos
+const ORDEN = ["Entradas", "Sopas", "Platos fuertes", "Postres", "Bebidas"];
+const categorias = ORDEN
+  .map((nombre) => ({ nombre, platos: menu.filter((p) => p.categoria === nombre) }))
+  .filter((c) => c.platos.length > 0);
 ---
 
 <Layout
-  titulo="Menú | La Esquina"
-  descripcion="Descubre nuestros platos: pizzas, pastas, hamburguesas y postres caseros. Sabor que se queda contigo."
+  titulo="Nuestra carta | La Esquina"
+  descripcion="Carta completa de La Esquina: entradas, sopas, platos fuertes, postres y bebidas de la cocina paisa tradicional en Medellín."
 >
   <section class="py-20 px-6 bg-stone-100">
     <div class="max-w-6xl mx-auto">
 
       <div class="text-center mb-12">
-        <span class="text-amber-700 font-semibold uppercase tracking-wider">Nuestro menú</span>
-        <h1 class="text-4xl md:text-5xl font-bold mt-2">Platos que enamoran</h1>
+        <span class="text-amber-700 font-semibold uppercase tracking-wider">Menú completo</span>
+        <h1 class="text-4xl md:text-5xl font-bold mt-2">Nuestra carta</h1>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-        <TarjetaPlato
-          nombre="Pizza Margherita"
-          precio="$15"
-          descripcion="Tomate, mozzarella fresca y albahaca de nuestro jardín."
-          imagen="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=75&auto=format"
-        />
-
-        <TarjetaPlato
-          nombre="Pasta Carbonara"
-          precio="$18"
-          descripcion="Spaghetti con panceta, huevo y queso pecorino romano."
-          imagen="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=600&q=75&auto=format"
-        />
-
-        <TarjetaPlato
-          nombre="Burger Premium"
-          precio="$16"
-          descripcion="Carne angus 200g, queso cheddar, tocineta y vegetales frescos."
-          imagen="https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&q=75&auto=format"
-        />
-
+      <div class="space-y-16">
+        {categorias.map((categoria) => (
+          <div>
+            <h2 class="text-2xl md:text-3xl font-bold mb-8 border-b-2 border-amber-700 pb-2">
+              {categoria.nombre}
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {categoria.platos.map((plato) => <TarjetaPlato {...plato} />)}
+            </div>
+          </div>
+        ))}
       </div>
+
+      <div class="text-center mt-16">
+        <a href="/" class="inline-block bg-amber-700 hover:bg-amber-800 text-white px-8 py-4 rounded-lg font-semibold text-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2">
+          ← Volver al inicio
+        </a>
+      </div>
+
     </div>
   </section>
 </Layout>
