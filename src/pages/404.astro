@@ -1,0 +1,24 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  titulo="404 — Página no encontrada | La Esquina"
+  descripcion="La página que buscas no existe. Vuelve al inicio de La Esquina."
+>
+  <main class="min-h-[70vh] flex items-center justify-center px-6 py-20 bg-stone-100">
+    <div class="max-w-xl text-center">
+      <p class="text-amber-700 font-semibold uppercase tracking-wider">Error 404</p>
+      <h1 class="text-4xl md:text-6xl font-bold mt-2 mb-4">Página no encontrada</h1>
+      <p class="text-stone-600 text-lg mb-8">
+        Lo sentimos, esta página no existe o se movió. La mesa sigue servida en el inicio.
+      </p>
+      <a
+        href="/"
+        class="inline-block bg-amber-700 hover:bg-amber-800 text-white px-8 py-4 rounded-lg font-semibold text-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-700 focus-visible:ring-offset-2"
+      >
+        Volver al inicio
+      </a>
+    </div>
+  </main>
+</Layout>
