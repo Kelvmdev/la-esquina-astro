@@ -86,7 +86,7 @@ import { sitio } from "../config";
             <span data-btn-label>Confirmar reserva</span>
             <span data-btn-spinner hidden>Enviando…</span>
           </button>
-          <p data-form-status hidden class="text-sm text-center"></p>
+          <p data-form-status role="status" aria-live="polite" hidden class="text-sm text-center"></p>
         </form>
       </div>
     </div>
@@ -98,6 +98,15 @@ import { sitio } from "../config";
   const label = form?.querySelector<HTMLElement>("[data-btn-label]");
   const spinner = form?.querySelector<HTMLElement>("[data-btn-spinner]");
   const button = form?.querySelector<HTMLButtonElement>("button[type=submit]");
+
+  // No permitir reservar en el pasado: min = hoy (fecha local del visitante)
+  const fechaInput = form?.querySelector<HTMLInputElement>("#fecha");
+  if (fechaInput) {
+    const ahora = new Date();
+    fechaInput.min = new Date(ahora.getTime() - ahora.getTimezoneOffset() * 60000)
+      .toISOString()
+      .split("T")[0];
+  }
 
   const setStatus = (msg: string, ok: boolean) => {
     if (!status) return;

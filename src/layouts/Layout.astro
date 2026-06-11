@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { sitio, heroSrcset } from '../config';
+import Navbar from '../components/Navbar.astro';
 
 const {
   titulo,
@@ -90,7 +91,16 @@ const jsonLd = {
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>
-    <slot />
+    <a
+      href="#contenido"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-amber-700 focus:px-4 focus:py-2 focus:font-semibold focus:text-white focus:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
+    >
+      Saltar al contenido
+    </a>
+    <Navbar />
+    <main id="contenido" tabindex="-1" class="focus:outline-none">
+      <slot />
+    </main>
     <footer class="bg-stone-900 text-white text-center p-6 mt-20">
       © 2026 La Esquina — Hecho por Kervin Martínez
     </footer>

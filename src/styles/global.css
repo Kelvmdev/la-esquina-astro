@@ -1,1 +1,25 @@
 @import "tailwindcss";
+
+/* Las anclas (#sobre, #menu, …) no quedan tapadas por el navbar sticky */
+html {
+  scroll-padding-top: 5rem;
+}
+
+/* Respeta a quien pide menos movimiento: sin scroll suave, sin animaciones
+   ni transiciones perceptibles, y sin el zoom de la galería al pasar el cursor */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+  .group:hover img {
+    transform: none !important;
+  }
+}
