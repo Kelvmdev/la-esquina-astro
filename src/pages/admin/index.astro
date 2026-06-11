@@ -1,7 +1,7 @@
 ---
 export const prerender = false;
 
-import { sitio, menu, testimonios, galeria } from "../../config";
+import { sitio, menu, testimonios, galeria, sobre } from "../../config";
 import "../../styles/global.css";
 
 const logueado = Astro.cookies.get("sesion")?.value === "ok";
@@ -55,6 +55,65 @@ const error = Astro.url.searchParams.get("error");
       <span class="block text-sm font-medium mb-1">Horario</span>
       <input data-campo="horario" value={sitio.horario} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
     </label>
+
+    <div>
+      <span class="block text-sm font-medium mb-1">Imagen del hero (fondo principal)</span>
+      <img data-preview-hero src={sitio.heroImagen} alt="Imagen del hero" class="w-full h-32 object-cover rounded-lg border border-stone-200 mb-2" />
+      <input type="file" accept="image/*" data-file-hero class="block w-full text-sm text-stone-600 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-amber-700 file:text-white file:cursor-pointer hover:file:bg-amber-800" />
+      <p data-upload-hero hidden class="text-xs mt-1"></p>
+      <input type="hidden" data-campo="heroImagen" value={sitio.heroImagen} />
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <label class="block">
+        <span class="block text-sm font-medium mb-1">Latitud (mapa)</span>
+        <input data-campo="lat" data-tipo="number" type="number" step="any" value={sitio.lat} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+      </label>
+      <label class="block">
+        <span class="block text-sm font-medium mb-1">Longitud (mapa)</span>
+        <input data-campo="lon" data-tipo="number" type="number" step="any" value={sitio.lon} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+      </label>
+    </div>
+  </div>
+
+  <!-- Card: sobre nosotros -->
+  <div data-sobre class="bg-white rounded-2xl shadow-lg p-6 md:p-8 space-y-4">
+    <h2 class="text-lg font-bold">Sobre nosotros 📖</h2>
+
+    <div>
+      <span class="block text-sm font-medium mb-1">Imagen</span>
+      <img data-preview-sobre src={sobre.imagen} alt="Imagen de Sobre nosotros" class="w-full h-32 object-cover rounded-lg border border-stone-200 mb-2" />
+      <input type="file" accept="image/*" data-file-sobre class="block w-full text-sm text-stone-600 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-amber-700 file:text-white file:cursor-pointer hover:file:bg-amber-800" />
+      <p data-upload-sobre hidden class="text-xs mt-1"></p>
+      <input type="hidden" data-sobre-imagen value={sobre.imagen} />
+    </div>
+
+    <div>
+      <span class="block text-sm font-medium mb-1">Historia (párrafos)</span>
+      <div data-historia-lista class="space-y-3">
+        {sobre.historia.map((parrafo) => (
+          <div data-parrafo class="flex gap-2 items-start">
+            <textarea data-sobre-parrafo rows="3" class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700">{parrafo}</textarea>
+            <button type="button" data-borrar-parrafo class="shrink-0 text-red-600 hover:text-red-700 font-medium px-2 py-1">✕</button>
+          </div>
+        ))}
+      </div>
+      <button type="button" data-agregar-parrafo class="mt-3 w-full border-2 border-dashed border-amber-700 text-amber-700 font-semibold py-2 rounded-lg hover:bg-amber-50 transition">
+        + Agregar párrafo
+      </button>
+    </div>
+
+    <div>
+      <span class="block text-sm font-medium mb-1">Estadísticas</span>
+      <div data-stats-lista class="space-y-3">
+        {sobre.stats.map((stat) => (
+          <div data-stat class="grid grid-cols-2 gap-3">
+            <input data-stat-numero value={stat.numero} placeholder="Número (ej. 15+)" class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+            <input data-stat-etiqueta value={stat.etiqueta} placeholder="Etiqueta" class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+          </div>
+        ))}
+      </div>
+    </div>
   </div>
 
   <!-- Card: menú -->
@@ -80,6 +139,22 @@ const error = Astro.url.searchParams.get("error");
             <span class="block text-sm font-medium mb-1">Descripción</span>
             <textarea data-campo="descripcion" rows="2" class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700">{plato.descripcion}</textarea>
           </label>
+          <div class="grid grid-cols-2 gap-3 items-end">
+            <label class="block">
+              <span class="block text-sm font-medium mb-1">Categoría</span>
+              <select data-campo="categoria" class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700">
+                <option value="Entradas" selected={plato.categoria === "Entradas"}>Entradas</option>
+                <option value="Sopas" selected={plato.categoria === "Sopas"}>Sopas</option>
+                <option value="Platos fuertes" selected={plato.categoria === "Platos fuertes"}>Platos fuertes</option>
+                <option value="Postres" selected={plato.categoria === "Postres"}>Postres</option>
+                <option value="Bebidas" selected={plato.categoria === "Bebidas"}>Bebidas</option>
+              </select>
+            </label>
+            <label class="flex items-center gap-2 pb-2">
+              <input type="checkbox" data-campo="destacado" checked={plato.destacado} class="w-4 h-4 accent-amber-700" />
+              <span class="text-sm font-medium">Destacado en home</span>
+            </label>
+          </div>
           <div>
             <span class="block text-sm font-medium mb-1">Imagen del plato</span>
             <img data-preview src={plato.imagen} alt={plato.nombre} class="w-32 h-24 object-cover rounded-lg border border-stone-200 mb-2" />
@@ -117,6 +192,12 @@ const error = Astro.url.searchParams.get("error");
           <label class="block">
             <span class="block text-sm font-medium mb-1">Rol</span>
             <input data-campo="rol" value={t.rol} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+          </label>
+          <label class="block">
+            <span class="block text-sm font-medium mb-1">Estrellas</span>
+            <select data-campo="estrellas" data-tipo="number" class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700">
+              {[1, 2, 3, 4, 5].map((n) => <option value={n} selected={t.estrellas === n}>{n}</option>)}
+            </select>
           </label>
           <div>
             <span class="block text-sm font-medium mb-1">Avatar</span>
@@ -171,12 +252,20 @@ const error = Astro.url.searchParams.get("error");
       </div>
     )}
 
-    <script define:vars={{ sitioActual: sitio, menuActual: menu, testimoniosActual: testimonios }}>
+    <script define:vars={{ sitioActual: sitio, menuActual: menu, testimoniosActual: testimonios, sobreActual: sobre }}>
   const btn = document.querySelector("[data-guardar]");
   const estado = document.querySelector("[data-estado]");
   const menuContainer = document.querySelector("[data-menu-lista]");
   const testiContainer = document.querySelector("[data-testi-lista]");
   const galeriaContainer = document.querySelector("[data-galeria-lista]");
+  const historiaContainer = document.querySelector("[data-historia-lista]");
+
+  // Lee el valor de un [data-campo] respetando su tipo (checkbox → bool, data-tipo="number" → número).
+  function valorCampo(el) {
+    if (el.type === "checkbox") return el.checked;
+    if (el.dataset.tipo === "number") return Number(el.value);
+    return el.value;
+  }
 
   const CLOUD_NAME = "dw26ujhoo";
   const UPLOAD_PRESET = "portafolio_unsigned";
@@ -249,6 +338,11 @@ const error = Astro.url.searchParams.get("error");
   document.querySelector("[data-agregar-plato]")?.addEventListener("click", () => {
     const nuevo = menuContainer.querySelector("[data-plato]").cloneNode(true);
     nuevo.querySelectorAll("[data-campo]").forEach((el) => { el.value = ""; });
+    // Resetear controles especiales del plato nuevo
+    const sel = nuevo.querySelector('[data-campo="categoria"]');
+    if (sel) sel.selectedIndex = 0;
+    const chk = nuevo.querySelector('[data-campo="destacado"]');
+    if (chk) chk.checked = false;
     nuevo.querySelector("[data-file]").value = "";
     nuevo.querySelector("[data-preview]").src = "https://placehold.co/300x200?text=Sin+foto";
     const aviso = nuevo.querySelector("[data-upload]");
@@ -297,6 +391,9 @@ const error = Astro.url.searchParams.get("error");
   document.querySelector("[data-agregar-testi]")?.addEventListener("click", () => {
     const nuevo = testiContainer.querySelector("[data-testi]").cloneNode(true);
     nuevo.querySelectorAll("[data-campo]").forEach((el) => { el.value = ""; });
+    // Estrellas por defecto en un testimonio nuevo
+    const est = nuevo.querySelector('[data-campo="estrellas"]');
+    if (est) est.value = "5";
     const fileAv = nuevo.querySelector("[data-file-avatar]");
     if (fileAv) fileAv.value = "";
     const prevAv = nuevo.querySelector("[data-preview-avatar]");
@@ -349,24 +446,91 @@ const error = Astro.url.searchParams.get("error");
     e.target.closest("[data-foto-item]").remove();
   });
 
+  // Subidor genérico (reutiliza el flujo de Cloudinary para hero y sobre)
+  async function subirReemplazando(file, { aviso, hidden, preview, etiqueta }) {
+    if (!file) return;
+    aviso.hidden = false;
+    aviso.textContent = `Subiendo ${etiqueta}…`;
+    aviso.className = "text-xs mt-1 text-stone-600";
+    try {
+      const url = await subirACloudinary(file);
+      hidden.value = url;
+      preview.src = url;
+      aviso.textContent = "¡Imagen lista! ✅";
+      aviso.className = "text-xs mt-1 text-green-700";
+    } catch {
+      aviso.textContent = "No se pudo subir. Intenta de nuevo.";
+      aviso.className = "text-xs mt-1 text-red-700";
+    }
+  }
+
+  // Hero: subir imagen de fondo
+  const fileHero = document.querySelector("[data-file-hero]");
+  fileHero?.addEventListener("change", () => subirReemplazando(fileHero.files[0], {
+    aviso: document.querySelector("[data-upload-hero]"),
+    hidden: document.querySelector('[data-sitio] [data-campo="heroImagen"]'),
+    preview: document.querySelector("[data-preview-hero]"),
+    etiqueta: "imagen del hero",
+  }));
+
+  // Sobre: subir imagen
+  const fileSobre = document.querySelector("[data-file-sobre]");
+  fileSobre?.addEventListener("change", () => subirReemplazando(fileSobre.files[0], {
+    aviso: document.querySelector("[data-upload-sobre]"),
+    hidden: document.querySelector("[data-sobre-imagen]"),
+    preview: document.querySelector("[data-preview-sobre]"),
+    etiqueta: "imagen",
+  }));
+
+  // Sobre: agregar párrafo de historia
+  document.querySelector("[data-agregar-parrafo]")?.addEventListener("click", () => {
+    const nuevo = historiaContainer.querySelector("[data-parrafo]").cloneNode(true);
+    nuevo.querySelector("[data-sobre-parrafo]").value = "";
+    historiaContainer.appendChild(nuevo);
+  });
+
+  // Sobre: borrar párrafo
+  historiaContainer?.addEventListener("click", (e) => {
+    if (!e.target.matches("[data-borrar-parrafo]")) return;
+    if (historiaContainer.querySelectorAll("[data-parrafo]").length <= 1) {
+      alert("Debe quedar al menos un párrafo.");
+      return;
+    }
+    e.target.closest("[data-parrafo]").remove();
+  });
+
   // Guardar
   btn?.addEventListener("click", async () => {
+    // sitio: parte del original y sobreescribe con el DOM (incluye heroImagen, lat, lon)
     const sitio = { ...sitioActual };
     document.querySelectorAll("[data-sitio] [data-campo]").forEach((el) => {
-      sitio[el.dataset.campo] = el.value;
+      sitio[el.dataset.campo] = valorCampo(el);
     });
 
+    // sobre: parte del original (preserva campos desconocidos) y sobreescribe con el DOM
+    const sobre = { ...sobreActual };
+    sobre.imagen = document.querySelector("[data-sobre-imagen]").value;
+    sobre.historia = Array.from(document.querySelectorAll("[data-sobre-parrafo]"))
+      .map((el) => el.value)
+      .filter((p) => p.trim());
+    sobre.stats = Array.from(document.querySelectorAll("[data-stat]")).map((card) => ({
+      numero: card.querySelector("[data-stat-numero]").value,
+      etiqueta: card.querySelector("[data-stat-etiqueta]").value,
+    }));
+
+    // menu: cada plato recoge TODOS sus [data-campo] (nombre, precio, descripcion, categoria, destacado, imagen)
     const menu = [];
     menuContainer.querySelectorAll("[data-plato]").forEach((card) => {
       const plato = {};
-      card.querySelectorAll("[data-campo]").forEach((el) => { plato[el.dataset.campo] = el.value; });
+      card.querySelectorAll("[data-campo]").forEach((el) => { plato[el.dataset.campo] = valorCampo(el); });
       menu.push(plato);
     });
 
+    // testimonios: cada uno recoge TODOS sus [data-campo] (texto, nombre, rol, estrellas, avatar)
     const testimonios = [];
     testiContainer.querySelectorAll("[data-testi]").forEach((card) => {
       const t = {};
-      card.querySelectorAll("[data-campo]").forEach((el) => { t[el.dataset.campo] = el.value; });
+      card.querySelectorAll("[data-campo]").forEach((el) => { t[el.dataset.campo] = valorCampo(el); });
       testimonios.push(t);
     });
 
@@ -377,7 +541,7 @@ const error = Astro.url.searchParams.get("error");
     if (menu.some((p) => !p.nombre.trim() || !p.precio.trim())) return avisarError("⚠️ Hay un plato sin nombre o sin precio.");
     if (testimonios.some((t) => !t.texto.trim() || !t.nombre.trim())) return avisarError("⚠️ Hay un testimonio sin texto o sin nombre.");
 
-    const nuevaData = { sitio, menu, testimonios, galeria };
+    const nuevaData = { sitio, sobre, menu, testimonios, galeria };
 
     estado.hidden = false;
     estado.textContent = "Guardando…";
