@@ -74,6 +74,19 @@ const error = Astro.url.searchParams.get("error");
         <input data-campo="lon" data-tipo="number" type="number" step="any" value={sitio.lon} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
       </label>
     </div>
+
+    <label class="block">
+      <span class="block text-sm font-medium mb-1">WhatsApp (solo números, ej. 573001234889)</span>
+      <input data-campo="whatsapp" value={sitio.whatsapp} class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+    </label>
+    <label class="block">
+      <span class="block text-sm font-medium mb-1">Instagram (URL completa)</span>
+      <input data-red="instagram" value={sitio.redes?.instagram} placeholder="https://instagram.com/…" class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+    </label>
+    <label class="block">
+      <span class="block text-sm font-medium mb-1">Facebook (URL completa)</span>
+      <input data-red="facebook" value={sitio.redes?.facebook} placeholder="https://facebook.com/…" class="w-full px-4 py-2 border border-stone-300 rounded-lg focus:outline-none focus:border-amber-700" />
+    </label>
   </div>
 
   <!-- Card: sobre nosotros -->
@@ -501,10 +514,15 @@ const error = Astro.url.searchParams.get("error");
 
   // Guardar
   btn?.addEventListener("click", async () => {
-    // sitio: parte del original y sobreescribe con el DOM (incluye heroImagen, lat, lon)
+    // sitio: parte del original y sobreescribe con el DOM (incluye heroImagen, lat, lon, whatsapp)
     const sitio = { ...sitioActual };
     document.querySelectorAll("[data-sitio] [data-campo]").forEach((el) => {
       sitio[el.dataset.campo] = valorCampo(el);
+    });
+    // redes: objeto anidado. Parte del original (preserva claves desconocidas) y sobreescribe con el DOM.
+    sitio.redes = { ...(sitioActual.redes ?? {}) };
+    document.querySelectorAll("[data-sitio] [data-red]").forEach((el) => {
+      sitio.redes[el.dataset.red] = el.value;
     });
 
     // sobre: parte del original (preserva campos desconocidos) y sobreescribe con el DOM

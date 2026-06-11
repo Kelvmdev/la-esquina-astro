@@ -9,7 +9,12 @@
     "email": "hola@laesquina.com",
     "horario": "Lunes a Domingo: 12:00 PM - 11:00 PM",
     "lat": 6.209468,
-    "lon": -75.569725
+    "lon": -75.569725,
+    "whatsapp": "573001234889",
+    "redes": {
+      "instagram": "https://instagram.com/laesquina",
+      "facebook": "https://facebook.com/laesquina"
+    }
   },
   "sobre": {
     "imagen": "https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=800&q=75&auto=format",
