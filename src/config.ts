@@ -4,3 +4,4 @@ export const menu = data.menu;
 export const testimonios = data.testimonios;
 export const sitio = data.sitio;
 export const galeria = data.galeria;
+export const sobre = data.sobre;
