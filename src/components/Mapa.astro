@@ -1,13 +1,15 @@
 ---
+import { sitio } from "../config";
+
 interface Props {
-  lat: number;
-  lon: number;
+  lat?: number;
+  lon?: number;
   zoom?: number;
   lang?: string;
   alto?: string;
 }
 
-const { lat, lon, zoom = 16, lang = "es", alto = "h-72" } = Astro.props;
+const { lat = sitio.lat, lon = sitio.lon, zoom = 16, lang = "es", alto = "h-72" } = Astro.props;
 
 const mapSrc = `https://maps.google.com/maps?q=${lat},${lon}&z=${zoom}&hl=${lang}&output=embed`;
 const mapHref = `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;

@@ -1,13 +1,13 @@
 ---
-import { sitio } from "../config";
+import { sitio, heroSrcset } from "../config";
+
+const heroset = heroSrcset(sitio.heroImagen);
 ---
 
 <section id="inicio" class="relative h-screen flex items-center justify-center">
   <img
-    src="https://images.pexels.com/photos/34442359/pexels-photo-34442359.jpeg?auto=compress&cs=tinysrgb&w=1200"
-    srcset="https://images.pexels.com/photos/34442359/pexels-photo-34442359.jpeg?auto=compress&cs=tinysrgb&w=768 768w,
-            https://images.pexels.com/photos/34442359/pexels-photo-34442359.jpeg?auto=compress&cs=tinysrgb&w=1200 1200w,
-            https://images.pexels.com/photos/34442359/pexels-photo-34442359.jpeg?auto=compress&cs=tinysrgb&w=1600 1600w"
+    src={sitio.heroImagen}
+    srcset={heroset || undefined}
     sizes="100vw"
     alt="Interior del restaurante La Esquina"
     width="1600"
