@@ -18,9 +18,18 @@
       "Trabajamos con productores locales para garantizar frescura, calidad y sabor en cada bocado."
     ],
     "stats": [
-      { "numero": "15+", "etiqueta": "Años de experiencia" },
-      { "numero": "50k", "etiqueta": "Clientes felices" },
-      { "numero": "4.9", "etiqueta": "Estrellas en reseñas" }
+      {
+        "numero": "16+",
+        "etiqueta": "Años de experiencia"
+      },
+      {
+        "numero": "50k",
+        "etiqueta": "Clientes felices"
+      },
+      {
+        "numero": "4.9",
+        "etiqueta": "Estrellas en reseñas"
+      }
     ]
   },
   "menu": [
@@ -28,73 +37,73 @@
       "nombre": "Bandeja Paisa",
       "precio": "$35.000",
       "descripcion": "Frijoles, arroz, carne molida, chicharrón, chorizo, huevo, arepa, plátano y aguacate.",
-      "imagen": "https://commons.wikimedia.org/wiki/Special:FilePath/Bandeja%20paisa%2030062011.jpg?width=800",
       "categoria": "Platos fuertes",
-      "destacado": true
+      "destacado": true,
+      "imagen": "https://commons.wikimedia.org/wiki/Special:FilePath/Bandeja%20paisa%2030062011.jpg?width=800"
     },
     {
       "nombre": "Sancocho Antioqueño",
       "precio": "$28.000",
       "descripcion": "Sopa de carnes con yuca, plátano y mazorca, al estilo de la casa.",
-      "imagen": "https://images.pexels.com/photos/32334852/pexels-photo-32334852.jpeg?auto=compress&cs=tinysrgb&w=800",
       "categoria": "Sopas",
-      "destacado": true
+      "destacado": true,
+      "imagen": "https://images.pexels.com/photos/32334852/pexels-photo-32334852.jpeg?auto=compress&cs=tinysrgb&w=800"
     },
     {
       "nombre": "Mondongo",
       "precio": "$26.000",
       "descripcion": "Tradicional sopa de mondongo con verduras y un toque de cilantro.",
-      "imagen": "https://images.pexels.com/photos/15780649/pexels-photo-15780649.jpeg?auto=compress&cs=tinysrgb&w=800",
       "categoria": "Sopas",
-      "destacado": true
+      "destacado": true,
+      "imagen": "https://images.pexels.com/photos/15780649/pexels-photo-15780649.jpeg?auto=compress&cs=tinysrgb&w=800"
     },
     {
       "nombre": "Frijoles Antioqueños",
       "precio": "$22.000",
       "descripcion": "Frijoles con garra, arroz blanco, chicharrón y arepa.",
-      "imagen": "https://images.pexels.com/photos/31985804/pexels-photo-31985804.jpeg?auto=compress&cs=tinysrgb&w=800",
       "categoria": "Platos fuertes",
-      "destacado": false
+      "destacado": false,
+      "imagen": "https://images.pexels.com/photos/31985804/pexels-photo-31985804.jpeg?auto=compress&cs=tinysrgb&w=800"
     },
     {
       "nombre": "Arepa de Chócolo",
       "precio": "$12.000",
       "descripcion": "Arepa dulce de maíz tierno servida con quesito fresco.",
-      "imagen": "https://images.pexels.com/photos/33173598/pexels-photo-33173598.jpeg?auto=compress&cs=tinysrgb&w=800",
       "categoria": "Entradas",
-      "destacado": false
+      "destacado": false,
+      "imagen": "https://images.pexels.com/photos/33173598/pexels-photo-33173598.jpeg?auto=compress&cs=tinysrgb&w=800"
     },
     {
       "nombre": "Mazamorra con Panela",
       "precio": "$8.000",
       "descripcion": "Postre paisa de maíz con leche, acompañado de panela.",
-      "imagen": "https://images.pexels.com/photos/37825034/pexels-photo-37825034.jpeg?auto=compress&cs=tinysrgb&w=800",
       "categoria": "Postres",
-      "destacado": false
+      "destacado": false,
+      "imagen": "https://images.pexels.com/photos/37825034/pexels-photo-37825034.jpeg?auto=compress&cs=tinysrgb&w=800"
     },
     {
       "nombre": "Empanadas",
       "precio": "$6.000",
       "descripcion": "Empanadas de maíz crujientes rellenas de carne y papa, con ají de la casa.",
-      "imagen": "https://commons.wikimedia.org/wiki/Special:FilePath/Empanada.jpg?width=800",
       "categoria": "Entradas",
-      "destacado": false
+      "destacado": false,
+      "imagen": "https://commons.wikimedia.org/wiki/Special:FilePath/Empanada.jpg?width=800"
     },
     {
       "nombre": "Limonada de Coco",
       "precio": "$9.000",
       "descripcion": "Refrescante limonada batida con crema de coco, servida bien fría.",
-      "imagen": "https://commons.wikimedia.org/wiki/Special:FilePath/Limonada%20de%20coco.jpg?width=800",
       "categoria": "Bebidas",
-      "destacado": false
+      "destacado": false,
+      "imagen": "https://commons.wikimedia.org/wiki/Special:FilePath/Limonada%20de%20coco.jpg?width=800"
     },
     {
       "nombre": "Arroz con Leche",
       "precio": "$9.000",
       "descripcion": "Postre cremoso de arroz cocido en leche con canela y un toque de panela.",
-      "imagen": "https://commons.wikimedia.org/wiki/Special:FilePath/Arroz%20con%20leche.jpg?width=800",
       "categoria": "Postres",
-      "destacado": false
+      "destacado": false,
+      "imagen": "https://commons.wikimedia.org/wiki/Special:FilePath/Arroz%20con%20leche.jpg?width=800"
     }
   ],
   "testimonios": [
@@ -102,22 +111,22 @@
       "texto": "La bandeja paisa más completa y sabrosa que he probado. El servicio es excepcional y el ambiente, perfecto para compartir en familia.",
       "nombre": "María González",
       "rol": "Cliente frecuente",
-      "avatar": "https://i.pravatar.cc/100?img=1",
-      "estrellas": 5
+      "estrellas": 5,
+      "avatar": "https://i.pravatar.cc/100?img=1"
     },
     {
       "texto": "Lugar acogedor, comida deliciosa y precios justos. Mi familia y yo venimos cada fin de semana. Los recomiendo 100%.",
       "nombre": "Carlos Ramírez",
       "rol": "Padre de familia",
-      "avatar": "https://i.pravatar.cc/100?img=12",
-      "estrellas": 5
+      "estrellas": 5,
+      "avatar": "https://i.pravatar.cc/100?img=12"
     },
     {
       "texto": "Celebré mi cumpleaños aquí y fue una experiencia inolvidable. Atención personalizada, postres increíbles y un detalle especial de la casa.",
       "nombre": "Laura Sánchez",
       "rol": "Cumpleañera feliz",
-      "avatar": "https://i.pravatar.cc/100?img=5",
-      "estrellas": 5
+      "estrellas": 5,
+      "avatar": "https://i.pravatar.cc/100?img=5"
     }
   ],
   "galeria": [
