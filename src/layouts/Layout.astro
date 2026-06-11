@@ -26,6 +26,9 @@ const canonical = new URL(Astro.url.pathname, base).href;
 // pasar `imagen` para sobreescribirla. Siempre se emite como URL absoluta.
 const ogImagen = new URL(imagen ?? '/og.png', base).href;
 
+// El schema Restaurant se emite SOLO en la home (una entidad por sitio, no por página)
+const esHome = Astro.url.pathname === '/';
+
 // Datos estructurados para negocio local (Google → resultados enriquecidos).
 // Para el schema usamos una foto real del restaurante, no la tarjeta de marca.
 const jsonLd = {
@@ -34,7 +37,7 @@ const jsonLd = {
   name: sitio.nombre,
   description: descripcion,
   image: new URL(sitio.heroImagen, base).href,
-  url: canonical,
+  url: new URL('/', base).href,
   telephone: sitio.telefono,
   email: sitio.email,
   servesCuisine: 'Comida paisa, cocina colombiana tradicional',
@@ -43,7 +46,13 @@ const jsonLd = {
     '@type': 'PostalAddress',
     streetAddress: sitio.direccion,
     addressLocality: 'Medellín',
+    addressRegion: 'Antioquia',
     addressCountry: 'CO',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: sitio.lat,
+    longitude: sitio.lon,
   },
   openingHours: 'Mo-Su 12:00-23:00',
 };
@@ -93,7 +102,7 @@ const jsonLd = {
     <meta name="twitter:image" content={ogImagen} />
     <meta name="twitter:image:alt" content={imagenAlt} />
 
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    {esHome && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
   <body>
     <a

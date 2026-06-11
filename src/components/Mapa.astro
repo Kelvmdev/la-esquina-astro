@@ -57,6 +57,10 @@ const mapHref = `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
     let tapCount = 0;
     let tapTimer: number | undefined;
 
+    // Copy según el tipo de puntero: "Doble toque" en táctil, "Doble clic" en ratón
+    const esTactil = window.matchMedia("(pointer: coarse)").matches;
+    if (hint) hint.textContent = esTactil ? "Doble toque para interactuar" : "Doble clic para interactuar";
+
     const lock = () => {
       overlay.style.pointerEvents = "";
       tapCount = 0;
@@ -81,8 +85,9 @@ const mapHref = `https://www.google.com/maps/search/?api=1&query=${lat},${lon}`;
       }
     });
 
-    section.addEventListener("wheel", () => {
-      if (overlay.style.pointerEvents === "none") lock();
-    }, { passive: true });
+    // Re-bloquea al volver a hacer scroll: wheel cubre ratón; scroll de ventana cubre táctil
+    const reBloquear = () => { if (overlay.style.pointerEvents === "none") lock(); };
+    section.addEventListener("wheel", reBloquear, { passive: true });
+    window.addEventListener("scroll", reBloquear, { passive: true });
   }
 </script>
